@@ -52,3 +52,4 @@ manager_app.get('/logout', mana_main.logout);
 manager_app.post('/login', mana_main.login);
 manager_app.get('/list', mana_list.main);
 manager_app.post('/list_show', mana_list.list_show);
+manager_app.get('/make_resv', mana_list.make_resv);

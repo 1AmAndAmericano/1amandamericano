@@ -1,6 +1,6 @@
 exports.main = function(req, res){
     if (req.session.userid != undefined){
-	    res.render('Mana_list', { title: 'List',name:'1am Americano', data:null});
+	    res.render('Mana_list', { title: 'List',name:'1am Americano', data:null, filter:null});
 
     }
     else {
@@ -9,6 +9,9 @@ exports.main = function(req, res){
 }
 
 
+exports.make_resv = function(req, res) {
+    res.render('Mana_resv', {title : 'Make Reservatioin'});
+}
 
 exports.list_show = function(req, res) {
     console.log(req.body.from); 
