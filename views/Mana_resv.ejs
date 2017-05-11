@@ -9,5 +9,46 @@
 <a href="/">Home</a>
 <a href="/list">Reservation list</a>
 <a href="/logout">logout</a>
+
+    <form action="/list_show" method="post">
+        <table>
+        <td>
+        Email : <input type="email" name="cust_email"/><br>
+        </td>
+        <td>
+        from : <input type="date" name="from"/><br>
+        </td>
+
+        <td>
+        to : <input type="date" name="to"/><br>
+        </td>
+
+        <td>
+        What kinds of room
+        <select name="room_type">
+			<option disabled selected value> -- </option>
+            <option value="single">Single</option>
+            <option value="double">Double</option>
+            <option value="twin">Twin</option>
+            <option value="special">Special</option>
+        </select><br>
+        </td>
+
+        <td>
+        Occupied
+        <select name="occupied">
+			<option disabled selected value> -- </option>
+            <option value="Empty">Empty</option>
+            <option value="Occupied">Occuopied</option>
+        </select>
+        </td>
+
+        <td>
+        <input type="submit" id="search" value="SEARCH">
+        </td>
+
+        </table>
+    </form>
+
 </body>
 </html>

@@ -5,50 +5,9 @@
 </head>
 <body>
 <h1><%= title %></h1>
-<p>Welcome to Manager list <%= name %></p>
+<p>Welcome to Customer list <%= name %></p>
 <a href="/">Home</a>
 <a href="/logout">logout</a><br>
-    <form action="/list_show" method="post">
-        <table>
-        <td>
-        Email : <input type="email" name="cust_email"/><br>
-        </td>
-        <td>
-        from : <input type="date" name="from"/><br>
-        </td>
-
-        <td>
-        to : <input type="date" name="to"/><br>
-        </td>
-
-        <td>
-        What kinds of room
-        <select name="room_type">
-			<option disabled selected value> -- </option>
-            <option value="single">Single</option>
-            <option value="double">Double</option>
-            <option value="twin">Twin</option>
-            <option value="special">Special</option>
-        </select><br>
-        </td>
-
-        <td>
-        Occupied
-        <select name="occupied">
-			<option disabled selected value> -- </option>
-            <option value="Empty">Empty</option>
-            <option value="Occupied">Occupied</option>
-        </select>
-        </td>
-
-        <td>
-        <input type="submit" id="search" value="SEARCH">
-        </td>
-
-        </table>
-    </form>
-    <br>
-    <strong>Filtered by</strong><%= filter %>
     <br>
     <br>
     <table id="rev_list">
@@ -70,7 +29,7 @@
 
     <script>
         var table = document.getElementById("rev_list");
-        var data = <%- data %>;
+        var data = <%= data %>;
         var row;
         var cell0, cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, cell10, cell11;
         var d;

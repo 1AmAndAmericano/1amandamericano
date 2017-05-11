@@ -5,14 +5,9 @@ exports.main = function(req, res){
         var db = new sqlite3.Database('myDB.db');
         var email = req.session.userid;
         var filter = ' customer email: '+ email;
-        var query = 'select * ' + 
-                    'from Reservations ' + 
-                    'left join Customers '+
-                    'on Reservations.Email = Customers.Email '+
-                    'where Customers.Email =\'' + email + '\'';
+        var query = 'select * from Reservations left join rooms on Reservations.RoomNumber=Rooms.RoomNumber where Email =' + email;
         console.log(query);
         db.all(query, function(err, row){
-                        console.log(row);
                         res.render('Cust_list', {title: 'List complete',name:'1am Americano', data : JSON.stringify(row)});
                         });
         db.close();

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+<script>
+function str2Date(hey){
+    var year = hey.substr(0, 4);
+   var month = hey.substr(5, 2);
+    var day = hey.substr(8, 2);
+  month = Number(month) - 1;
+  if (month == 12){
+    month = 0;
+    }
+  return new Date(year, month, day);
+   }
+</script>
+</head>
+
+<body>
+<h1><%= title %></h1>
+<p>Let's check room status~</p>
+<a href="/">Home</a>
+<a href="/logout">logout</a><br>
+
+<form action="/rooms_show" method="post">
+<table>
+    <td>
+    from : <input type="date" name="from"/><br>
+    </td>
+    <td>
+    to : <input type="date" name="to"/><br>
+    </td>
+    <td>
+    What kinds of room
+    <select name="room_type">
+    <option disabled selected value> -- </option>
+    <option value="single">Single</option>
+    <option value="double">Double</option>
+    <option value="twin">Twin</option>
+    <option value="special">Special</option>
+    </select><br>
+    </td>
+    <td>
+    <input type="submit" id="check" value="CHECK">
+    </td>
+</table>
+</form>
+
+<br>
+<strong>Filtered by? </strong><%= filter %>
+<br>
+<table id="rooms_table">
+    <thead>
+    <tr>
+    <th>DATE</th>
+    </tr>
+    </thead>
+</table>
+
+<script>
+
+if (from!='' && to!=''){
+        var from = <%- JSON.stringify(from) %>;
+        var to = <%- JSON.stringify(to) %>;
+        
+            var data = <%- data %>;
+        var table = document.getElementById("rooms_table");
+        var hd_row = table.tHead.children[0];
+        var fromDate = str2Date(from);
+         var toDate = str2Date(to);
+         console.log(fromDate);
+        console.log(toDate);
+
+
+      
+      var today;
+      for(var i=0; ; i++){
+           hd_row.insertCell(-1).outerHTML = '<th>'+(fromDate.getMonth()+1)+'-'+fromDate.getDate()+'<th>';
+            fromDate.setTime(fromDate.getTime() + 86400000);
+            if ( fromDate > toDate ){ break; }
+        } 
+
+        var row;
+        var d;
+        for(var i=0; i<data.length; i++){
+                console.log(data[i]);
+                d = data[i];
+        }
+
+}
+</script>
+</body>
+</html>
+

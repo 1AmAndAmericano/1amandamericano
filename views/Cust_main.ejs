@@ -4,7 +4,71 @@
 <title><%= title %></title>
 </head>
 <body>
-<h1><%= title %></h1>
-<p>Welcome Customer main to <%= name %></p>
+    <h1><%= title %></h1>
+    <p>Welcome Customer main to <%= name %></p>
+    
+    <!-- ***********TAB_MENU*********** -->
+    <a href="/rooms_list">rooms_list</a>
+    <a href="/reservation">reservation</a>
+    <a href="/login_main">login</a>
+
+    <!-- ***********SEARCH_FILTER*********** -->
+    <form action="/rooms_search" method="post">
+       <table>
+            <td>
+            Checkin : <input type="date" name="from"/><br>
+            </td>
+            <td>
+            Checkout : <input type="date" name="to"/><br>
+            </td>
+            <td>
+            Guests : <input type="number" name="guests"/><br>
+            </td>
+       </table>
+       <button type="button">SEARCH</button>
+    </form>
+    
+    <!-- ***********AVAILABLE_ROOM_LISTS*********** -->
+    <br>
+    <strong>Filtered by? </strong><%= filter %>
+    <br>
+    <table id="rooms_table">
+            <tr>
+                <th>RoomType</th>
+                <th>Roomcounts</th>
+            </tr>
+    </table>
+    
+    <!-- ***********CLICK_RESERVATION_BUTTON*********** -->
+    <form action="/make_resv" method="post">
+    <button type="button">RESERVATION</button>
+    </form>
+
+    <!-- ***********FILL_ROOM_COUNTS*********** -->   
+    <script>
+
+        console.log('Consumer selects period.');
+        var from2 = <%- JSON.stringify(from2) %>;
+        var to2 = <%- JSON.stringify(to2) %>;
+        var data = <%- data %>;
+        var cols = new Array();
+        if (data != null){
+                        var table = document.getElementById("rooms_table");
+                        var d;
+                        var row;
+                        for(var i=0; i<data.length; i++){
+                                d = data[i];
+                                console.log(data[i]);
+                                row = table.insertRow(-1);
+                                for(var j = 0; j < 2; j++){
+                                        cols[j] = row.insertCell(j);
+                                }
+
+                                cols[0].innerHTML = d.RoomType;
+                                cols[1].innerHTML = d.count;
+              }
+       }
+    </script>
+    
 </body>
 </html>
