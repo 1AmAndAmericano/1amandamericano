@@ -7,7 +7,7 @@ var cust_list = require("./routes/Cust_list");
 var mana_main = require("./routes/Mana_main");
 var mana_list = require("./routes/Mana_list");
 var mana_rooms = require("./routes/Mana_rooms");
-
+var mana_mkresv = require("./routes/Mana_mkresv");
 
 var customer_app = express();
 var manager_app = express();
@@ -74,3 +74,6 @@ manager_app.get('/rooms', mana_rooms.main);
 //manager_app.get('/rooms_show', mana_rooms.rooms_show);
 manager_app.post('/rooms_show', mana_rooms.rooms_show);
 manager_app.get('/make_resv', mana_list.make_resv);
+manager_app.get('/resv', mana_mkresv.main);
+manager_app.post('/make_resv', mana_mkresv.make_resv);
+manager_app.post('/insertdb', mana_mkresv.insertdb);

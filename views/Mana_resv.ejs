@@ -10,45 +10,102 @@
 <a href="/list">Reservation list</a>
 <a href="/logout">logout</a>
 
-    <form action="/list_show" method="post">
-        <table>
+<form action="/make_resv" method="post">
+    <table>
         <td>
-        Email : <input type="email" name="cust_email"/><br>
-        </td>
-        <td>
-        from : <input type="date" name="from"/><br>
+            from : <input type="date" placeholder="2017-01-01" name="from"/><br>
         </td>
 
         <td>
-        to : <input type="date" name="to"/><br>
+            to : <input type="date" placeholder="2017-01-01" name="to"/><br>
         </td>
 
         <td>
-        What kinds of room
-        <select name="room_type">
-			<option disabled selected value> -- </option>
-            <option value="single">Single</option>
-            <option value="double">Double</option>
-            <option value="twin">Twin</option>
-            <option value="special">Special</option>
-        </select><br>
+            What kinds of room
+            <select name="room_type">
+                <option disabled selected value> -- </option>
+                <option value="single">Single</option>
+                <option value="double">Double</option>
+                <option value="twin">Twin</option>
+                <option value="special">Special</option>
+            </select><br>
         </td>
 
         <td>
-        Occupied
-        <select name="occupied">
-			<option disabled selected value> -- </option>
-            <option value="Empty">Empty</option>
-            <option value="Occupied">Occuopied</option>
-        </select>
+            Guests
+            <input type="number" name="guests" value="1"/><br>
         </td>
 
         <td>
-        <input type="submit" id="search" value="SEARCH">
+            <input type="submit" id="search" value="MAKE"/>
         </td>
 
-        </table>
-    </form>
+    </table>
+</form>
 
+<strong>Filtered by</strong> <font id="filter"><%= filter %></font><br>
+
+
+<table id="rev_list">
+    <tr>
+        <th>RoomNumber</th>
+        <th>RoomPrice</th>
+        <th>RoomType</th>
+        <th>MAKE</th>
+    </tr>
+</table>
+<script>
+    var table = document.getElementById("rev_list");
+    var data = <%- data %>;
+    var row;
+    var cell0, cell1, cell2, cell3;
+    var filted_data = document.getElementById("filter").textContent;
+    var d;
+    for(var i=0; i<data.length; i++){
+        d = data[i];
+        console.log(data[i]);
+        row = table.insertRow(-1);
+        cell0 = row.insertCell(0);
+        cell1 = row.insertCell(1);
+        cell2 = row.insertCell(2);
+        cell3 = row.insertCell(3);
+        cell0.innerHTML = d.RoomNumber;
+        cell1.innerHTML = d.RoomPrice;
+        cell2.innerHTML = d.RoomType;
+        cell3.innerHTML = '<button onclick="inputEmail(this,filted_data)">Make</button>';
+
+    }
+    function inputEmail(el, filted_data){
+        var RoomNumber = el.parentNode.parentNode.cells[0].textContent;
+        var RoomPrice = el.parentNode.parentNode.cells[1].textContent;
+        var RoomType = el.parentNode.parentNode.cells[2].textContent;
+        console.log(RoomNumber);
+        console.log(RoomPrice);
+        console.log(RoomType);
+        var other_data = prompt("Email/Bank/Account", "user@gmail.com/woori/1002");
+        if (other_data.split('/').length==3){
+            post_to_url({'RoomNumber': RoomNumber, 'RoomPrice':RoomPrice, 'RoomType': RoomType, 'other_data':other_data, 'data' : filted_data});
+        }else {
+            alert("Invalid data form. Try again");
+        }
+
+    }
+
+    function post_to_url(params) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/insertdb");
+        for(var key in params) {
+            var data = document.createElement("input");
+            data.setAttribute("type", "hidden");
+            data.setAttribute("name", key);
+            data.setAttribute("value", params[key]);
+            form.appendChild(data);
+        }
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+</script>
 </body>
 </html>

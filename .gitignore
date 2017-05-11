@@ -1,3 +1,5 @@
 *.swp
-session.db
-screenlog.0
+*.swo
+myDB.db
+screenlog.0  
+sessions.db

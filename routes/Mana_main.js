@@ -17,12 +17,16 @@ exports.login = function(req, res){
     var query = 'select email, password from Managers where email=\''+userid+'\' and password=\''+pwd+'\'';
     var row_email;
     db.get(query, function(err, row){
-        if (userid == row.Email && pwd ==row.Password ){
-            req.session.userid = row.Email;
-            console.log("login success!!");
-        }
-        else { 
-            console.log("login fail!!");
+        if(row != undefined) {
+            if (userid == row.Email && pwd == row.Password) {
+                req.session.userid = row.Email;
+                console.log("login success!!");
+            }
+            else {
+                console.log("login fail!!");
+            }
+        }else{
+
         }
           res.redirect('/');
    });
