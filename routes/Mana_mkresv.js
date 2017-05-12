@@ -23,8 +23,8 @@ exports.make_resv = function(req, res) {
     filter += 'from: '+ from;
     filter += ' to: '+ to;
     filter += ' room type: '+ room_type + '';
-
     var query = make_query(from, to, room_type);
+	console.log(query);
     db.all(query, function(err, row){
         res.render('Mana_resv', {title: 'Make Resv',name:'1am Americano', data : JSON.stringify(row) , filter : filter});
     });
@@ -85,14 +85,14 @@ exports.insertdb = function(req, res){
 
 
 var make_query = function(from, to, room_type){
-    var str='select rooms.RoomNumber, rooms.RoomType, rooms.RoomPrice from Reservations left join rooms on Reservations.RoomNumber=Rooms.RoomNumber ';
+	var str= "select * from rooms where roomnumber not in (select rooms.roomnumber from Reservations left join rooms on Reservations.RoomNumber=Rooms.RoomNumber ";
     var q = 'where ';
     if ((from != undefined && from !='') && (to != undefined && to !='')) {
-        q+="CheckinDate < '"+from+" 23:00:00' or ";
-        q+="CheckoutDate > '"+to+" 10:00:00' and ";
+        q+="CheckinDate >= '"+from+" 23:00:00' or ";
+        q+="CheckoutDate <= '"+to+" 10:00:00') and ";
     }
     if (room_type != undefined) {
-        q+="RoomType='"+room_type+"' and ";
+        q+="RoomType='"+room_type+"' order by roomnumber asc";
     }
     if(q.length == 6){
         return str;
