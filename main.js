@@ -73,7 +73,7 @@ manager_app.post('/list_show', mana_list.list_show);
 manager_app.get('/rooms', mana_rooms.main);
 //manager_app.get('/rooms_show', mana_rooms.rooms_show);
 manager_app.post('/rooms_show', mana_rooms.rooms_show);
-manager_app.get('/make_resv', mana_list.make_resv);
 manager_app.get('/resv', mana_mkresv.main);
 manager_app.post('/make_resv', mana_mkresv.make_resv);
 manager_app.post('/insertdb', mana_mkresv.insertdb);
+manager_app.post('/cancelresv', mana_list.cancelresv);

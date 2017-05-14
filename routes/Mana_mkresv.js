@@ -25,6 +25,7 @@ exports.make_resv = function(req, res) {
     filter += ' room type: '+ room_type + '';
 
     var query = make_query(from, to, room_type);
+    console.log(query);
     db.all(query, function(err, row){
         res.render('Mana_resv', {title: 'Make Resv',name:'1am Americano', data : JSON.stringify(row) , filter : filter});
     });
@@ -39,7 +40,6 @@ exports.insertdb = function(req, res){
     var roomprice = req.body.RoomPrice;
     var roomtype = req.body.RoomType;
     var other_data = req.body.other_data;
-    console.log("hhhhh"+other_data);
     other_data = other_data.split('/');
     var data = req.body.data;
     console.log(roomnumber);
@@ -55,7 +55,7 @@ exports.insertdb = function(req, res){
     var checkout = j[1];
     var query ="";
     function getNum(callback){
-        db.get('SELECT Count(*) FROM reservations', function (err, row) {
+        db.get('select max(resvid) from reservations;', function (err, row) {
             console.log(row);
             callback(row);
         });
@@ -63,7 +63,7 @@ exports.insertdb = function(req, res){
 
     function retval(ret){
         var query = "INSERT INTO reservations ('ResvID', 'Email', 'RoomNumber','CheckinDate', 'CheckoutDate', 'Is_Customer', 'ResvState', 'Price', 'Bank', 'Account') VALUES (";
-        query+= String(20170000+Number(ret['Count(*)'])+1)+", ";
+        query+= String(Number(ret['max(resvid)'])+1)+", ";
         query+= '"'+email+'", ';
         query+= roomnumber+", ";
         query+= '"'+checkin+' 23:00:00", ';
@@ -85,20 +85,21 @@ exports.insertdb = function(req, res){
 
 
 var make_query = function(from, to, room_type){
-    var str='select rooms.RoomNumber, rooms.RoomType, rooms.RoomPrice from Reservations left join rooms on Reservations.RoomNumber=Rooms.RoomNumber ';
+    var str= "select * from rooms where roomnumber not in (select rooms.roomnumber from Reservations left join rooms on Reservations.RoomNumber=Rooms.RoomNumber ";
     var q = 'where ';
     if ((from != undefined && from !='') && (to != undefined && to !='')) {
-        q+="CheckinDate < '"+from+" 23:00:00' or ";
-        q+="CheckoutDate > '"+to+" 10:00:00' and ";
+        q+="CheckinDate between '"+from+"' and '"+to+"' or "
+        q+="CheckoutDate between '"+from+"' and '"+to+"' or "
+        q+="CheckinDate <='"+from+"' and checkoutdate >='"+to+"')"
     }
     if (room_type != undefined) {
-        q+="RoomType='"+room_type+"' and ";
+        q+="RoomType='"+room_type+"' order by roomnumber asc";
     }
     if(q.length == 6){
         return str;
     } else {
         str +=q;
-        return str.substring(0,str.length-4);
+        return str;
     }
 }
 
