@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
     "connect-sqlite3": "^0.9.9",
     "ejs": "~2.4.1",
     "express": "~4.13.1",

@@ -23,7 +23,6 @@ exports.make_resv = function(req, res) {
     filter += 'from: '+ from;
     filter += ' to: '+ to;
     filter += ' room type: '+ room_type + '';
-
     var query = make_query(from, to, room_type);
     console.log(query);
     db.all(query, function(err, row){
