@@ -52,7 +52,7 @@ function str2Date(hey){
 <table id="rooms_table">
     <thead>
     <tr>
-    <th>DATE</th>
+    <th>ROOM#</th>
     </tr>
     </thead>
 </table>
@@ -71,20 +71,49 @@ if (from!='' && to!=''){
 
       
       var today;
+      var thisDate = new Date();
+      thisDate.setTime(fromDate.getTime());
+      var hd_cell;
       for(var i=0; ; i++){
-           hd_row.insertCell(-1).outerHTML = '<th>'+(fromDate.getMonth()+1)+'-'+fromDate.getDate()+'<th>';
-            fromDate.setTime(fromDate.getTime() + 86400000);
-            if ( fromDate > toDate ){ break; }
+            
+           hd_cell = hd_row.insertCell(-1);
+           hd_cell.outerHTML = '<th>'+(thisDate.getMonth()+1)+'-'+thisDate.getDate()+'<th>';
+           hd_cell.setAttribute('width','20');
+           thisDate.setTime(thisDate.getTime() + 86400000);
+            if ( thisDate > toDate ){ break; }
         } 
 
         var row;
         var d;
+        console.log(fromDate);
         for(var i=0; i<data.length; i++){
-                
-                console.log(data[i]);
-                d = data[i];
-        }
 
+                console.log(data[i]);
+                d = data[i];   
+                row = table.insertRow(-1);
+                cell = row.insertCell(0);
+                cell.innerHTML = d.RoomNumber;
+                thisDate.setTime(fromDate.getTime());
+                var inDate = str2Date(d.CheckinDate);
+                var outDate = str2Date(d.CheckoutDate);
+                outDate.setTime(outDate.getTime() - 86400000); 
+
+                for(var j=1; ; j++){
+                        if (inDate == null){ break; }
+                        cell = row.insertCell(j);
+                        cell.setAttribute('width', '20');
+                        if ((inDate <= thisDate) && (outDate >= thisDate)){
+                                 cell.innerHTML = "no";
+                        }
+                        else{
+                               console.log(thisDate);
+                        }
+
+                        thisDate.setTime(thisDate.getTime() + 86400000);
+                        if ( thisDate > toDate ){ 
+                                break; }
+                }
+        }
 }
 </script>
 </body>

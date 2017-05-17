@@ -92,7 +92,7 @@ var make_query = function(from, to, room_type){
         q+="CheckinDate <='"+from+"' and checkoutdate >='"+to+"')"
     }
     if (room_type != undefined) {
-        q+="RoomType='"+room_type+"' order by roomnumber asc";
+        q+=" and RoomType='"+room_type+"' order by roomnumber asc";
     }
     if(q.length == 6){
         return str;
