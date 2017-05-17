@@ -1,6 +1,5 @@
 *.swp
 *.swo
-myDB.db
 screenlog.0  
 sessions.db
 node_modules/
