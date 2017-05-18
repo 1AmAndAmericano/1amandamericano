@@ -67,14 +67,15 @@
             <th>RoomPrice</th>
             <th>RoomType</th>
             <th>CANCEL</th>
-        </tr>
+            <th>CHECKIN/OUT</th>
+    </tr>
     </table>
 
     <script>
         var table = document.getElementById("rev_list");
         var data = <%- data %>;
         var row;
-        var cell0, cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, cell10, cell11, cell12;
+        var cell0, cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, cell10, cell11, cell12, cell13;
         var d;
         for(var i=0; i < data.length; i++){
             d = data[i];
@@ -93,7 +94,9 @@
             cell10 = row.insertCell(10);
             cell11 = row.insertCell(11);
             cell12 = row.insertCell(12);
-            cell0.innerHTML = d.ResvID;
+            cell13 = row.insertCell(13);
+           
+           cell0.innerHTML = d.ResvID;
             cell1.innerHTML = d.Email;
             cell2.innerHTML = d.RoomNumber;
             cell3.innerHTML = d.CheckinDate;
@@ -106,12 +109,18 @@
             cell10.innerHTML = d.RoomPrice;
             cell11.innerHTML = d.RoomType;
             cell12.innerHTML = '<button onclick="cancelresv(this)">CANCEL</button>';
+            if(d.ResvState < 2){
+                cell13.innerHTML = '<button onclick="checkin()">CHECKIN</button>';
+            } else{
+                cell13.innerHTML = '<button onclick="checkout()">CHECKOUT</button>';
+            
+            }
         }
 
     function cancelresv(el){
         var ResvID = el.parentNode.parentNode.cells[0].textContent;
         console.log(ResvID);
-        var iscancel = confirm("Really cancel the reservation?");
+        var iscancel = confirm("Really cancel the reservation? A refund will be issued properly.");
         if (iscancel == true){
             post_to_url({'ResvID': ResvID});
         }
@@ -131,6 +140,8 @@
         document.body.appendChild(form);
         form.submit();
     }
+    function checkin(){ }
+    function checkout() { }
     </script>
 </body>
 </html>

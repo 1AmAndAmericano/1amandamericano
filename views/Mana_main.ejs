@@ -9,6 +9,32 @@
 <a href="/rooms">Check room status</a>
 <a href="/list">Reservation list</a>
 <a href="/resv">Make Reservation</a>
+<p>Others<p/>
+<button onclick="confirmresv()">Confirm Resv.</button>
+<button onclick="autocancel()">Auto-Cancel Resv.</button>
+<button onclick="noshow()">No-show check</button>
+<br><br><br>
 <a href="/logout">logout</a>
 </body>
 </html>
+
+<script>
+    function confirmresv(){
+        var confirm_msg = confirm("Confirm Reservations for credited resv? ");
+        if (confirm_msg == true){
+                alert("Confirmation Success");
+        }
+    }     
+    function autocancel(){
+        var confirm_msg = confirm("Auto-cancel Reservations?");
+        if (confirm_msg == true){
+                alert("Autocancel Success");
+        }
+    }   
+    function noshow(){
+        var confirm_msg = confirm("Send E-mails for no-show Reservations?");
+        if (confirm_msg == true){
+                alert("Sending E-mail Success");
+        }
+    }
+</script>
