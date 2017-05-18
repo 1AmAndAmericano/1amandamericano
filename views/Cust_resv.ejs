@@ -7,18 +7,20 @@
 <h1><%= title %></h1>
 <p>Welcome to Customer reservation! <%= name %></p>
 <a href="/">Home</a>
+<a href="/current_resv">Current Reservations</a>
+<a href="/history_resv">Past Reservations</a>
 <a href="/logout">logout</a><br>
     <br>
     <br>
-    <table id="resv_contirm">
+    <table id="resv_confirm">
         <tr>
-            <th>ResvID</th>
-            <th>Email</th>
-            <th>RoomNumber</th>
-            <th>CheckinDate</th>
-            <th>CheckoutDate</th>
-            <th>Price</th>
-            <th>RoomType</th>
+            <th>ResvID </th>
+            <th>Email </th>
+            <th>RoomNumber </th>
+            <th>CheckinDate </th>
+            <th>CheckoutDate </th>
+            <th>Price </th>
+            <th>RoomType </th>
         </tr>
     </table>
      <!-- ***********INSERT_REFUND_ACCOUNT*********** -->
@@ -34,24 +36,5 @@
      <button type="button">CONFIRM</button>
      </form>
 
-    <script>
-        var table = document.getElementById("resv_confirm");
-        
-        var row;
-        var cells = new Array();
-        console.log(data[i]);
-        row = table.insertRow(-1);
-        for (var j=0; j<7; j++){
-                cells[j] = row.insertCell(j);
-        }
-        cells[0].innerHTML = <%- JSON.stringify(ResvID) %>;
-        cells[1].innerHTML = <%- JSON.stringify(Email) %>;
-        cells[2].innerHTML = <%- JSON.stringify(RoomNumber) %>;
-        cells[3].innerHTML = <%- JSON.stringify(CheckinDate) %>;
-        cells[4].innerHTML = <%- JSON.stringify(CheckoutDate) %>;
-        cells[5].innerHTML = <%- JSON.stringify(Price) %>;
-        cells[6].innerHTML = <%- JSON.stringify(RoomType) %>;
-        }
-    </script>
 </body>
 </html>

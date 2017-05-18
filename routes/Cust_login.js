@@ -12,12 +12,27 @@ exports.login = function(req, res){
     db.get(query, function(err, row){
         if (userid == row.Email && pwd ==row.Password ){
             req.session.userid = row.Email;
+						/*req.session.check = 1;
+						res.render('Cust_main', {title : 'Main',
+																				logincheck : req.session.check,
+				                                name :req.session.userid,
+				                                filter : 'You have to fix period',
+				                                from2 :'',
+				                                to2 :'',
+				                                data: null });*/
             console.log("login success!!");
+						res.render('Cust_main_login', { title : 'Main',
+																				logincheck : 0,
+																				name : userid,
+																				filter : 'You have to fix period',
+																				from2 :'',
+																				to2 :'',
+																				data: null });
         }
-        else { 
+        else {
             console.log("login fail!!");
+						res.redirect('/');
         }
-        res.redirect('/');
     });
     db.close();
 }
@@ -28,4 +43,3 @@ exports.logout = function(req, res) {
         res.redirect('/');
     });
 }
-

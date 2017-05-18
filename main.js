@@ -3,7 +3,8 @@ var express = require('express');
 var cust_main = require("./routes/Cust_main");
 var cust_login = require("./routes/Cust_login");
 var cust_list = require("./routes/Cust_list");
-//var cust_resv = require("./routes/Cust_resv");
+var cust_resv = require("./routes/Cust_resv");
+
 var mana_main = require("./routes/Mana_main");
 var mana_list = require("./routes/Mana_list");
 var mana_rooms = require("./routes/Mana_rooms");
@@ -20,7 +21,7 @@ var cookieParser = require('cookie-parser');
 customer_app.use(cookieParser());
 manager_app.use(cookieParser());
 
-customer_app.use(bodyParser());
+customer_app.use(bodyParser.urlencoded({extended : false}));
 manager_app.use(bodyParser());
 
 /**********CUSTOMER************/
@@ -40,8 +41,11 @@ var customer_server = customer_app.listen(3000, function(){
 });
 
 customer_app.get('/', cust_main.main);
-customer_app.get('/login_main', cust_login.main);
+customer_app.get('/login', cust_login.main); //없어도 될 듯?
 customer_app.post('/login', cust_login.login);
+//customer_app.post('/login_main', cust_main.login_main);
+customer_app.get('/logout', cust_login.logout);
+customer_app.get(['/current_resv','/current_resv/:userid'], cust_resv.resv_list);
 customer_app.get('/rooms_list', cust_list.main);
 customer_app.post('/rooms_search', cust_main.rooms_search);
 //customer_app.post('/make_resv', cust_resv.make_resv);
