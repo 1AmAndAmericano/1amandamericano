@@ -66,6 +66,7 @@
             <th>Account</th>
             <th>RoomPrice</th>
             <th>RoomType</th>
+            <th>MODIFY</th>
             <th>CANCEL</th>
             <th>CHECKIN/OUT</th>
     </tr>
@@ -95,6 +96,8 @@
             cell11 = row.insertCell(11);
             cell12 = row.insertCell(12);
             cell13 = row.insertCell(13);
+            cell14 = row.insertCell(14);
+           
            
            cell0.innerHTML = d.ResvID;
             cell1.innerHTML = d.Email;
@@ -108,14 +111,17 @@
             cell9.innerHTML = d.Account;
             cell10.innerHTML = d.RoomPrice;
             cell11.innerHTML = d.RoomType;
-            cell12.innerHTML = '<button onclick="cancelresv(this)">CANCEL</button>';
+            cell12.innerHTML = '<button onclick="changeresv(this)">CHANGE</button>';
+            cell13.innerHTML = '<button onclick="cancelresv(this)">CANCEL</button>';
             if(d.ResvState < 2){
-                cell13.innerHTML = '<button onclick="checkin()">CHECKIN</button>';
+                cell14.innerHTML = '<button onclick="checkin()">CHECKIN</button>';
             } else{
-                cell13.innerHTML = '<button onclick="checkout()">CHECKOUT</button>';
+                cell14.innerHTML = '<button onclick="checkout()">CHECKOUT</button>';
             
             }
         }
+
+    function changeresv(el){ }
 
     function cancelresv(el){
         var ResvID = el.parentNode.parentNode.cells[0].textContent;

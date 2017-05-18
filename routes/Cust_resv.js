@@ -66,7 +66,7 @@ exports.resv_list = function(req, res) {
     var sqlite3 = require('sqlite3').verbose();
     var db = new sqlite3.Database('myDB.db');
     //var from = req.body.from;
-    var email = req.body.cust_email;
+    var email = req.session.userid;
     //var to = req.body.to;
     //var room_type = req.body.room_type;
     //var occupied = (req.body.occupied=='Occupied') ? 3 : undefined;
@@ -75,17 +75,17 @@ exports.resv_list = function(req, res) {
     //filter += ' to: '+ to;
     //filter += ' room type: '+ room_type;
     //filter += ' occupied: '+ req.body.occupied;
-	var query = "select * from Reservations where Reservations.Email=email"
-	console.log(query);
+    var query = 'select * from Reservations left join Customers on Reservations.Email = Customers.Email where Reservations.Email =\''+email+'\'';
+    console.log(query);
 	db.all(query, function(err, row){
 				console.log(row);
-        res.render('Cust_resv', {title: 'List complete', name:email, data : JSON.stringify(row) , filter :  filter});
+        res.render('Cust_resv', {title: 'List complete', name:email, data : JSON.stringify(row) });
     });
     db.close();
 }
 
 var make_query = function(email){
-    var str='select * from Reservations left join rooms on Reservations.Email=Customers.Email ';
+    var str='select * from Reservations left join rooms on Reservations.Email=Customers.Email where email=Reservations.Email';
     var q = 'where ';
 		return str;
     /*if (email != undefined && email !='') {
