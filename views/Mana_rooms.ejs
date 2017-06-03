@@ -2,6 +2,15 @@
 <html>
 <head>
 <title><%= title %></title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
 <script>
 function str2Date(hey){
     var year = hey.substr(0, 4);
@@ -16,47 +25,80 @@ function str2Date(hey){
 </script>
 </head>
 
-<body>
-<h1><%= title %></h1>
+<body style=background-color:pink>
+<!--<h1><%= title %></h1>
 <p>Let's check room status~</p>
 <a href="/">Home</a>
 <a href="/logout">logout</a><br>
+-->
 
-<form action="/rooms_show" method="post">
-<table>
-    <td>
-    from : <input type="date" name="from"/><br>
-    </td>
-    <td>
-    to : <input type="date" name="to"/><br>
-    </td>
-    <td>
-    What kinds of room
-    <select name="room_type">
+
+<nav class='navbar navbar-default'>
+    <div class='container-fluid'>
+    <div class='navbar-header'>
+    <a class='navbar-brand' href='/list'>1am Americano</a>
+    </div>
+    <p class='navbar-text'><%= title %></p>
+    <ul class='nav navbar-nav navbar-right'>
+    <li><a href='#'><%= userid %></a></li>
+    <li><a href='/logout'> LOGOUT </a></li>
+    </ul>
+    </div>
+</nav>
+
+<div class='col-md-2' style='background-color:lightpink'>
+<!--  <h1 style='text-align:center'><%=title %></h1> -->
+<ul class='nav nav-pills nav-stacked'>
+<li style='text-align:left'><a href="/list">Reservation list</a></li>
+<li style='text-align:left'><a href="/rooms">Check room status</a></li>
+<li style='text-align:left'><a href="/resv">Make a Reservation</a></li>
+</ul>
+</div>
+
+<div class='col-md-10'>
+<form class='form-inline' action="/rooms_show" method="post">
+    <div class='form-group'>
+    <label for='date'>From</label><br> 
+    <input class='form-control' type="date" name="from"/><br>
+    </div>
+    <div class='form-group'>
+    <label for='date'>To</label><br>
+    <input class='form-control' type="date" name="to"/><br>
+    </div>
+   
+     <div class='form-group'>
+    <label for='sel1'>What kinds of room</label> <br>
+      
+    <select class='form-control' name="room_type">
     <option disabled selected value> -- </option>
     <option value="single">Single</option>
     <option value="double">Double</option>
     <option value="twin">Twin</option>
     <option value="special">Special</option>
-    </select><br>
-    </td>
-    <td>
-    <input type="submit" id="check" value="CHECK">
-    </td>
-</table>
+    </select>
+    </div> 
+    <div class='form-group'>
+    <label></label><br>
+    <button class="btn btn-default" type="submit" id="check">CHECK</button>
+    </div>  
 </form>
-
 <br>
 <strong>Filtered by? </strong><%= filter %>
-<br>
-<table id="rooms_table">
+<br><br>
+
+<!--<table class='table table-bordered' id="rooms_table" style='background-color:antiquewhite'>
     <thead>
     <tr>
     <th>ROOM#</th>
     </tr>
     </thead>
 </table>
+-->
 
+<table class='table table-bordered' id="rooms_table" style='background-color:antiquewhite'>
+</table>
+
+</div>
 <script>
 
 if (from!='' && to!=''){
@@ -65,7 +107,9 @@ if (from!='' && to!=''){
         
             var data = <%- data %>;
         var table = document.getElementById("rooms_table");
-        var hd_row = table.tHead.children[0];
+        var hd_row = table.insertRow(-1);
+        hd_row.insertCell(-1).innerHTML = '<th>ROOM#</th>'
+     //  var hd_row = table.tHead.children[0];
         var fromDate = str2Date(from);
          var toDate = str2Date(to);
 
@@ -74,18 +118,19 @@ if (from!='' && to!=''){
       var thisDate = new Date();
       thisDate.setTime(fromDate.getTime());
       var hd_cell;
-      for(var i=0; ; i++){
+      for(var i=1; ; i++){
             
-           hd_cell = hd_row.insertCell(-1);
-           hd_cell.outerHTML = '<th>'+(thisDate.getMonth()+1)+'-'+thisDate.getDate()+'<th>';
-           hd_cell.setAttribute('width','20');
+           hd_cell = hd_row.insertCell(i);
+          // hd_cell.outerHTML = '<th>'+(thisDate.getMonth()+1)+'-'+thisDate.getDate()+'<th>';
+           hd_cell.outerHTML = '<th>'+thisDate.getDate()+'<th>';
+          // hd_cell.setAttribute('width','40');
            thisDate.setTime(thisDate.getTime() + 86400000);
             if ( thisDate > toDate ){ break; }
         } 
 
         var row;
         var d;
-        console.log(fromDate);
+        var inDate, outDate;
         for(var i=0; i<data.length; i++){
 
                 console.log(data[i]);
@@ -94,22 +139,21 @@ if (from!='' && to!=''){
                 cell = row.insertCell(0);
                 cell.innerHTML = d.RoomNumber;
                 thisDate.setTime(fromDate.getTime());
-                var inDate = str2Date(d.CheckinDate);
-                var outDate = str2Date(d.CheckoutDate);
-                outDate.setTime(outDate.getTime() - 86400000); 
-
                 for(var j=1; ; j++){
-                        if (inDate == null){ break; }
-                        cell = row.insertCell(j);
-                        cell.setAttribute('width', '20');
-                        if ((inDate <= thisDate) && (outDate >= thisDate)){
-                                 cell.innerHTML = "no";
-                        }
-                        else{
-                               console.log(thisDate);
-                        }
+                         cell = row.insertCell(j);
+                        if (d.CheckinDate != null && d.CheckoutDate !=null){
+                                inDate = str2Date(d.CheckinDate);
+                                outDate = str2Date(d.CheckoutDate);
+                                outDate.setTime(outDate.getTime() - 86400000); 
+                                if ((inDate <= thisDate) && (outDate >= thisDate)){
+                                        cell.style = 'background-color:red';
+                                }
+                                else{
+                                }
 
-                        thisDate.setTime(thisDate.getTime() + 86400000);
+                        }   
+                       
+                       thisDate.setTime(thisDate.getTime() + 86400000);
                         if ( thisDate > toDate ){ 
                                 break; }
                 }

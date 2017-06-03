@@ -2,50 +2,84 @@
 <html>
 <head>
 <title><%= title %></title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
 </head>
-<body>
-<h1><%= title %></h1>
+<body style=background-color:pink>
+
+<!--<h1><%= title %></h1>
 <p>Welcome to Manager make reservation </p>
 <a href="/">Home</a>
 <a href="/list">Reservation list</a>
 <a href="/logout">logout</a>
+-->
 
-<form action="/make_resv" method="post" id="myform">
-    <table>
-        <td>
-            from : <input type="date" placeholder="2017-01-01" id="fromday" name="from"/><br>
-        </td>
+<nav class='navbar navbar-default'>
+    <div class='container-fluid'>
+    <div class='navbar-header'>
+    <a class='navbar-brand' href='/list'>1am Americano</a>
+   </div>
+     <p class='navbar-text'><%= title %></p> 
+    
+    <ul class='nav navbar-nav navbar-right'>
+     <li><a href='#'><%= userid %></a></li>   
+     <li><a href='/logout'> LOGOUT </a></li>
+    </ul>
+    </div>
+</nav>
 
-        <td>
-            to : <input type="date" placeholder="2017-01-01" id="today" name="to"/><br>
-        </td>
+<div class='col-md-2' style='background-color:lightpink'>
+<!--  <h1 style='text-align:center'><%=title %></h1> -->
+<ul class='nav nav-pills nav-stacked'>
+<li style='text-align:left'><a href="/list">Reservation list</a></li>
+<li style='text-align:left'><a href="/rooms">Check room status</a></li>
+<li style='text-align:left'><a href="/resv">Make a Reservation</a></li>
+</ul>
+</div>
 
-        <td>
-            What kinds of room
-            <select name="room_type">
-                <option disabled selected value> -- </option>
-                <option value="single">Single</option>
-                <option value="double">Double</option>
-                <option value="twin">Twin</option>
-                <option value="special">Special</option>
-            </select><br>
-        </td>
+<div class='col-md-10'>
+<form class='form-inline' action="/make_resv" method="post" id="myform">
+    <div class='form-group'>
+        <label for='date'>From</label><br>   
+        <input class='form-control' type="date" name="from"/><br>
+    </div>
+    <div class='form-group'>
+        <label for='date'>To</label><br>
+        <input class='form-control' type="date" name="to"/><br>
+    </div>
+    <div class='form-group'>
+        <label for='sel1'>What kinds of room</label> <br>
+        <select class='form-control' name="room_type">
+        <option disabled selected value> -- </option>
+        <option value="single">Single</option>
+        <option value="double">Double</option>
+        <option value="twin">Twin</option>
+        <option value="special">Special</option>
+        </select>
+    </div> 
+    <div class='form-group'>
+        <label for='number'>Guests</label><br>
+        <input class='form-control' type="number" name="guests" value='1'/><br>
+    </div>
+  
 
-        <td>
-            Guests
-            <input type="number" name="guests" value="1"/><br>
-        </td>
-
-        <td>
-			<button id="search">MAKE</button>
-        </td>
-    </table>
+    <div class='form-group'>
+        <label></label><br>
+        <button class="btn btn-default" type="submit" id="search">MAKE</button>
+    </div>  
 </form>
 
+<br>
 <strong>Filtered by</strong> <font id="filter"><%= filter %></font><br>
+<br>
 
-
-<table id="rev_list">
+<table class='table' id="rev_list" style='background-color:antiquewhite'>
     <tr>
         <th>RoomNumber</th>
         <th>RoomPrice</th>
@@ -53,6 +87,8 @@
         <th>MAKE</th>
     </tr>
 </table>
+
+</div>
 <script>
     document.getElementById("search").addEventListener("click", function () {
             var fromday = document.getElementById("fromday").value;	
@@ -93,8 +129,8 @@
         console.log(RoomNumber);
         console.log(RoomPrice);
         console.log(RoomType);
-        var other_data = prompt("Email/Bank/Account", "user@gmail.com/woori/1002");
-        if (other_data.split('/').length==3){
+        var other_data = prompt("Email/Bank/Account/Depositor", "user@gmail.com/woori/1002/wealth");
+        if (other_data.split('/').length==4){
             post_to_url({'RoomNumber': RoomNumber, 'RoomPrice':RoomPrice, 'RoomType': RoomType, 'other_data':other_data, 'data' : filted_data});
             alert("Reservation Complete, E-mail is sent.");
         }else {

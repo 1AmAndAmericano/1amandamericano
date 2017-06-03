@@ -1,5 +1,5 @@
 exports.main = function(req, res){
-        res.render('Mana_rooms', { title : 'Rooms', data: null, from:'', to:'', filter: null});
+        res.render('Mana_rooms', { title : 'Room status', userid: req.session.userid, data: null, from:'', to:'', filter: null});
 }
 
 
@@ -12,7 +12,7 @@ exports.rooms_show = function(req, res) {
         var from = req.body.from;
         var to = req.body.to;
         if (from == '' || to == ''){
-            res.render('Mana_rooms', { title: 'Rooms', data:null, from:'', to:'', filter: 'You have to fix period' });
+            res.render('Mana_rooms', { title: 'Room status', userid:req.session.userid, data:null, from:'', to:'', filter: 'You have to fix period' });
             }
         else{
         var room_type = req.body.room_type;
@@ -20,7 +20,7 @@ exports.rooms_show = function(req, res) {
         var query = make_query(from, to, room_type);
         console.log(query);
         db.all(query, function(err, row){
-                        res.render('Mana_rooms', { title: 'Rooms', data : JSON.stringify(row) , from:from, to:to, filter :  filter});
+                        res.render('Mana_rooms', { title: 'Room status', userid:req.session.userid, data : JSON.stringify(row) , from:from, to:to, filter :  filter});
                         });
         db.close();
         }
@@ -30,14 +30,12 @@ exports.rooms_show = function(req, res) {
 var make_query = function(from, to, room_type){
         var fromdate = from+' 00:00:00';
         var todate = to+' 00:00:00';
-        var roomtype_filter="select * from rooms left join Reservations on Reservations.RoomNumber=Rooms.RoomNumber"; 
+        var roomtype_filter="select * from rooms left outer join Reservations on Reservations.RoomNumber=Rooms.RoomNumber"; 
          if (room_type != undefined) {
         roomtype_filter = roomtype_filter+" where RoomType='"+room_type+"'";
         }
        
         var str = "select * from ("+roomtype_filter+") where ((checkindate is null) or (checkindate<='"+todate+"' and datetime(checkoutdate, '-1 days')>='"+fromdate+"'))";
-
-        
 
         return str;
 }

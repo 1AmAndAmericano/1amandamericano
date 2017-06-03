@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+</head>
+<body>
+<h1><%= title %></h1>
+<p>Welcome to Customer reservation! <%= name %></p>
+<a href="/">Home</a>
+<a href="/resv_list">Reservations List</a>
+<a href="/resv_history_list">Reservations History</a>
+<a href="/logout">logout</a><br>
+    <br>
+    <br>
+    <table id="rev_list">
+        <tr>
+            <th>ResvID </th>
+            <th>Email </th>
+            <th>RoomNumber </th>
+            <th>CheckinDate </th>
+            <th>CheckoutDate </th>
+            <th>Price </th>
+            <th>RoomType </th>
+        </tr>
+    </table>
+     
+     <script>
+     var table = document.getElementById("rev_list");
+     var data = '<%- data %>';
+     var row;
+     var cell0, cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8;
+     var d;
+     console.log("data lenth:"+data.length);
+     if(data != ''){
+             data = JSON.parse(data);
+             for(var i=0; i < data.length; i++){
+                     d = data[i];
+                     console.log(data[i]);
+                     row = table.insertRow(-1);
+                     cell0 = row.insertCell(0);
+                     cell1 = row.insertCell(1);
+                     cell2 = row.insertCell(2);
+                     cell3 = row.insertCell(3);
+                     cell4 = row.insertCell(4);
+                     cell5 = row.insertCell(5);
+                     cell6= row.insertCell(6);
+                     cell7 = row.insertCell(7);
+                     cell8 = row.insertCell(8);
+                     cell0.innerHTML = d.ResvID;
+                     cell1.innerHTML = d.Email;
+                     cell2.innerHTML = d.RoomNumber;
+                     cell3.innerHTML = d.CheckinDate;
+                     cell4.innerHTML = d.CheckoutDate;
+                     cell5.innerHTML = d.Price;
+                     cell6.innerHTML = d.RoomType;
+                     cell7.innerHTML = '<button onclick="changeresv(this)">CHANGE</button>';
+                     cell8.innerHTML = '<button onclick="cancelresv(this)">CANCEL</button>';
+                
+                }
+     }
+     function cancelresv(el){
+        var ResvID = el.parentNode.parentNode.cells[0].textContent;
+        console.log(ResvID);
+        var iscancel = confirm("Really cancel the reservation? A refund will be issued properly.");
+        if (iscancel == true){
+                post_to_url({'ResvID': ResvID});
+        }
+    }
+
+    function post_to_url(params) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/cancelresv");
+        for(var key in params) {
+                var data = document.createElement("input");
+                data.setAttribute("type", "hidden");
+                data.setAttribute("name", key);
+                data.setAttribute("value", params[key]);
+                form.appendChild(data);
+        }
+        document.body.appendChild(form);
+        form.submit();
+    }   
+
+    </script>
+</body>
+</html>

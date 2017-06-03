@@ -1,6 +1,6 @@
 exports.main = function(req, res){
     if (req.session.userid != undefined){
-	    res.render('Mana_main', { title: 'Express',name:'1am Americano'});
+	    res.render('Mana_main', { title: 'Home',name:'1am Americano', userid: req.session.userid});
     }
     else {
 	    res.render('Mana_login', { title: 'Sign in'}); 

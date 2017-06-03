@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+</head>
+<body>
+    <h1><%= title %></h1>
+    <p>Welcome! <%= name %></p>
+
+    <!-- ***********TAB_MENU*********** -->
+    <a href="/rooms_list">rooms list</a>
+    <a href="/resv_list">reservation</a>
+    <a href="/login" id = login>login</a>
+    <a href="/logout" id = logout hidden>logout</a>
+    <br>
+
+    <!-- ***********SEARCH_FILTER*********** -->
+    <form action="/rooms_search" method="post">
+       <table>
+            <td>
+            Checkin : <input type="date" name="from" id = from /><br>
+            </td>
+            <td>
+            Checkout : <input type="date" name="to" id = to /><br>
+            </td>
+            <td>
+            Guests : <input type="number" name="guests"/><br>
+            </td>
+       </table>
+       <input type="submit" id="search" value="SEARCH">
+    </form>
+
+    <!-- ***********AVAILABLE_ROOM_LISTS*********** -->
+    <br>
+    <strong>Filtered by? </strong><%= filter %>
+    <br>
+    <table id="rooms_available">
+            <tr>
+                <th>RoomType</th>
+                <th>Select</th>
+            </tr>
+    </table>
+
+    <!-- ***********CLICK_RESERVATION_BUTTON*********** 
+    <form action="/make_resv" method="post">
+    <input type="submit" id="reservation" value="RESERVATION">
+    </form>
+    -->
+
+    <!-- ***********SHOW AVAILABLE ROOM TYPES*********** -->
+    <script>
+        var table = document.getElementById("rooms_available");
+        var data = '<%- data %>';
+        var row;
+        var cell0, cell1;
+        var d;
+        var name  = '<%- name %>';
+        var filter = '<%- filter %>'
+        if(name != ''){
+            document.getElementById("login").style.display = 'none';
+            document.getElementById("logout").style.display = 'block';
+        } else {
+            document.getElementById("login").style.display = 'block';
+            document.getElementById("logout").style.display = 'none';
+        
+        }
+
+        if(data != ''){
+                data = JSON.parse(data);
+                for(var i=0; i < data.length; i++){
+                        d = data[i];
+                        row = table.insertRow(-1);
+                        cell0 = row.insertCell(0);
+                        cell1 = row.insertCell(1);
+                        cell0.innerHTML = d.RoomType;
+                        var roomtype = d.RoomType;
+                        var roomnumber = d.num;
+                        cell1.innerHTML = '<button onclick="mk_resv(roomtype, filter, roomnumber)">SELECT</button>';
+                }
+        }
+
+        function mk_resv(roomtype, filter, roomnumber){ 
+            var username = '<%- name %>';
+            if(username == ''){
+                alert("Please Sign in!")
+				var form = document.createElement("form");
+				form.setAttribute("method", "get");
+            	form.setAttribute("action", "/login");
+				document.body.appendChild(form);
+            	form.submit();
+				return;
+            }
+            var form = document.createElement("form");
+            form.setAttribute("method", "post");
+            form.setAttribute("action", "/mk_resv");
+            //####//
+            var data = document.createElement("input");
+            data.setAttribute("type", "hidden");
+            data.setAttribute("name", "roomtype");
+            data.setAttribute("value", roomtype);
+            form.appendChild(data);
+            //####//
+            var data1 = document.createElement("input");
+            data1.setAttribute("type", "hidden");
+            data1.setAttribute("name", "filter");
+            data1.setAttribute("value", filter);
+            form.appendChild(data1);
+
+            var data2 = document.createElement("input");
+            data2.setAttribute("type", "hidden");
+            data2.setAttribute("name", "roomnumber");
+            data2.setAttribute("value", roomnumber);
+            form.appendChild(data2);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+    </script>
+</body>
+</html>

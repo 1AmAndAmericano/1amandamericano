@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+</head>
+<body>
+    <h1><%= title %></h1>
+    <p>Almost done! <%= name %><\p>
+    <!-- ***********TAB_MENU*********** -->
+    <a href="/rooms_list">rooms list</a>
+    <a href="/resv_list">reservation</a>
+    <a href="/login" id = login>login</a>
+    <a href="/logout" id = logout hidden>logout</a>
+    <br>
+
+    <!-- ***********ENTER_REFUND_ACCOUNT*********** -->
+    <form action="/confirm_resv" method="post">
+       <table>
+            <td>
+            Bank : <input type="string" name="bank" /><br>
+            </td>
+            <td>
+            Account : <input type="number" name="account" /><br>
+            </td>
+       </table>
+       <input type="hidden" name="to" value='<%=to%>'/>
+       <input type="hidden" name="from" value='<%=from%>'/>
+       <input type="hidden" name="roomtype" value='<%=roomtype%>'/>
+       <input type="hidden" name="roomnumber" value='<%=roomnumber%>'/>
+       <input type="submit" id="confirm" value="CONFIRM"/>
+    </form>
+    <br>
+
+</body>
+</html>

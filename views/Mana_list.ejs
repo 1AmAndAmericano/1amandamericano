@@ -2,125 +2,184 @@
 <html>
 <head>
 <title><%= title %></title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
 </head>
-<body>
-<h1><%= title %></h1>
+<body style='background-color:pink'>
+
+<!-- <h1><%= title %></h1>
 <p>Welcome to Manager list <%= name %></p>
 <a href="/">Home</a>
 <a href="/logout">logout</a><br>
 <a href="/resv">Make Reservation</a>
-    <form action="/list_show" method="post">
-        <table>
-        <td>
-        Email : <input type="email" name="cust_email"/><br>
-        </td>
-        <td>
-        from : <input type="date" name="from"/><br>
-        </td>
+    -->
+<nav class='navbar navbar-default'>
+    <div class='container-fluid'>
+        <div class='navbar-header'>
+            <a class='navbar-brand' href='/list'>1am Americano</a>
+        </div>
+        <p class='navbar-text'><%= title %></p>
+        <ul class='nav navbar-nav navbar-right'>
+           <li><a href='#'><%= userid %></a></li>
+           <li><a href='/logout'> LOGOUT </a></li>
+        </ul>
+   </div> 
+</nav>
+    
+<div class='col-md-2' style='background-color:lightpink'>
+    <!--  <h1 style='text-align:center'><%=title %></h1> -->
+    <ul class='nav nav-pills nav-stacked'>
+   <li style='text-align:left'><a href="/list">Reservation list</a></li>
+     <li style='text-align:left'><a href="/rooms">Check room status</a></li>
+    <li style='text-align:left'><a href="/resv">Make a Reservation</a></li>
+    </ul>
+</div>
 
-        <td>
-        to : <input type="date" name="to"/><br>
-        </td>
-
-        <td>
-        What kinds of room
-        <select name="room_type">
-			<option disabled selected value> -- </option>
+<div class='col-md-10'>
+    <form class='form-inline' action="/list_show" method="post">
+        <div class='form-group'>
+            <label for='email'>Email</label><br>
+            <input class='form-control' type="email" name="cust_email"/><br>
+       </div>
+      
+        <div class='form-group'>
+            <label for='date'>From</label><br>
+            <input class='form-control' type="date" name="from"/><br>
+        </div>
+        <div class='form-group'>
+            <label for='date'>To</label><br>
+            <input class='form-control' type="date" name="to"/><br>
+        </div>
+        <div class='form-group'>
+            <label for='sel1'>What kinds of room</label><br>
+            <select class='form-control' name="room_type">
+            <option disabled selected value> -- </option>
             <option value="single">Single</option>
             <option value="double">Double</option>
             <option value="twin">Twin</option>
             <option value="special">Special</option>
-        </select><br>
-        </td>
-
-        <td>
-        Occupied
-        <select name="occupied">
-			<option disabled selected value> -- </option>
+        </select>
+        </div>
+        <div class='form-group'>
+            <label for='sel1'>Occupied</label><br>
+            <select class='form-control' name="occupied">
+            <option disabled selected value> -- </option>
             <option value="Empty">Empty</option>
             <option value="Occupied">Occupied</option>
-        </select>
-        </td>
-
-        <td>
-        <input type="submit" id="search" value="SEARCH">
-        </td>
-
-        </table>
-    </form>
+            </select>
+        </div>
+       <div class='form-group'>
+        <label></label><br>
+        <button class="btn btn-default" type="submit" id="check">CHECK</button>
+       </div>
+    </form>  
+  
+ <div class='container-fluid'>
     <br>
-    <strong>Filtered by</strong><%= filter %>
-    <br>
-    <br>
-    <table id="rev_list">
-        <tr>
-            <th>ResvID</th>
-            <th>Email</th>
-            <th>RoomNumber</th>
-            <th>CheckinDate</th>
-            <th>CheckoutDate</th>
-            <th>Is_Customer</th>
-            <th>ResvState</th>
-            <th>Price</th>
-            <th>Bank</th>
-            <th>Account</th>
-            <th>RoomPrice</th>
-            <th>RoomType</th>
-            <th>MODIFY</th>
-            <th>CANCEL</th>
-            <th>CHECKIN/OUT</th>
-    </tr>
+    <button class="btn btn-default btn-sm" onclick="show_resv_table(0)">Simple</button>
+    <button class="btn btn-default btn-sm" onclick="show_resv_table(1)">Detailed</button>
+    
+    <strong>&nbsp&nbspFiltered by</strong><%= filter %>
+    <br><br>
+   
+    <table class='table' id="rev_list" style='background-color:antiquewhite'>
+  
     </table>
 
-    <script>
+    
+</div>
+</div>
+
+
+<script>
+    show_resv_table(0);
+
+    function show_resv_table(detailed){ 
         var table = document.getElementById("rev_list");
-        var data = <%- data %>;
+        table.innerHTML='';
+        var data = '<%- data %>';
+        data = JSON.parse(data);
         var row;
-        var cell0, cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, cell10, cell11, cell12, cell13;
+        var cell, cell0, cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, cell10, cell11, cell12, cell13;
         var d;
-        for(var i=0; i < data.length; i++){
+        row = table.insertRow(-1);     
+
+        row.insertCell(-1).outerHTML = '<th>ResvID</th>';
+        row.insertCell(-1).outerHTML = '<th>Email</th>';
+        row.insertCell(-1).outerHTML = '<th>Room#</th>';
+        row.insertCell(-1).outerHTML = '<th>CheckinDate</th>';
+        row.insertCell(-1).outerHTML = '<th>CheckoutDate</th>';
+        row.insertCell(-1).outerHTML = '<th>ResvState</th>';
+        row.insertCell(-1).outerHTML = '<th>RoomType</th>';
+        if(detailed==1){   
+                row.insertCell(-1).outerHTML = '<th>Price</th>';
+                row.insertCell(-1).outerHTML = '<th>Bank</th>';
+                row.insertCell(-1).outerHTML = '<th>Account</th>';
+                row.insertCell(-1).outerHTML = '<th>Depositor</th>';
+                
+                row.insertCell(-1).outerHTML = '<th>RoomPrice</th>';                
+                row.insertCell(-1).outerHTML = '<th>Is_Customer</th>';
+        }
+        row.insertCell(-1).outerHTML = '<th>MODIFY</th>';
+        row.insertCell(-1).outerHTML = '<th>CANCEL</th>';
+        row.insertCell(-1).outerHTML = '<th>CHECKIN/OUT</th>';
+
+
+        for(i=0; i < data.length; i++){
             d = data[i];
             console.log(data[i]);
             row = table.insertRow(-1);
-            cell0 = row.insertCell(0);
-            cell1 = row.insertCell(1);
-            cell2 = row.insertCell(2);
-            cell3 = row.insertCell(3);
-            cell4 = row.insertCell(4);
-            cell5 = row.insertCell(5);
-            cell6= row.insertCell(6);
-            cell7 = row.insertCell(7);
-            cell8 = row.insertCell(8);
-            cell9 = row.insertCell(9);
-            cell10 = row.insertCell(10);
-            cell11 = row.insertCell(11);
-            cell12 = row.insertCell(12);
-            cell13 = row.insertCell(13);
-            cell14 = row.insertCell(14);
+            cell0 = row.insertCell(-1);
+            cell1 = row.insertCell(-1);
+            cell2 = row.insertCell(-1);
+            cell3 = row.insertCell(-1);
+            cell4 = row.insertCell(-1);
+            cell5 = row.insertCell(-1);
+            cell6= row.insertCell(-1);
+            if(detailed==1){
+                    cell7 = row.insertCell(-1);
+                    cell8 = row.insertCell(-1);
+                    cell9 = row.insertCell(-1);
+                    cell10 = row.insertCell(-1);
+                    cell11 = row.insertCell(-1);
+                    cell12 = row.insertCell(-1);
+            }
+            cell13 = row.insertCell(-1);
+            cell14 = row.insertCell(-1);
+            cell15 = row.insertCell(-1);
            
-           
-           cell0.innerHTML = d.ResvID;
+
+            cell0.innerHTML = d.ResvID;
             cell1.innerHTML = d.Email;
             cell2.innerHTML = d.RoomNumber;
             cell3.innerHTML = d.CheckinDate;
             cell4.innerHTML = d.CheckoutDate;
-            cell5.innerHTML = d.Is_Customer;
-            cell6.innerHTML = d.ResvState;
-            cell7.innerHTML = d.Price;
-            cell8.innerHTML = d.Bank;
-            cell9.innerHTML = d.Account;
-            cell10.innerHTML = d.RoomPrice;
-            cell11.innerHTML = d.RoomType;
-            cell12.innerHTML = '<button onclick="changeresv(this)">CHANGE</button>';
-            cell13.innerHTML = '<button onclick="cancelresv(this)">CANCEL</button>';
+            cell5.innerHTML = d.ResvState;
+            cell6.innerHTML = d.RoomType;
+            if(detailed==1){
+                    cell7.innerHTML = d.Price;
+                    cell8.innerHTML = d.Bank;
+                    cell9.innerHTML = d.Account;
+                    cell10.innerHTML = d.Depositor;
+                    cell11.innerHTML = d.RoomPrice;
+                    cell12.innerHTML = d.Is_Customer;
+            }
+            cell13.innerHTML = "<button class='btn btn-default' onclick='changeresv(this)'>CHANGE</button>";
+            cell14.innerHTML = "<button class='btn btn-default' onclick='cancelresv(this)'>CANCEL</button>";
             if(d.ResvState < 2){
-                cell14.innerHTML = '<button onclick="checkin()">CHECKIN</button>';
+                cell15.innerHTML = "<button class='btn btn-default' onclick='checkin(this)'>CHECKIN</button>";
             } else{
-                cell14.innerHTML = '<button onclick="checkout()">CHECKOUT</button>';
-            
+                cell15.innerHTML = "<button class='btn btn-default' onclick='checkout(this)'>CHECKOUT</button>";
             }
         }
-
+    }
     function changeresv(el){ }
 
     function cancelresv(el){
@@ -128,14 +187,15 @@
         console.log(ResvID);
         var iscancel = confirm("Really cancel the reservation? A refund will be issued properly.");
         if (iscancel == true){
-            post_to_url({'ResvID': ResvID});
+            post_to_url({'ResvID': ResvID}, '/cancelresv');
         }
     }
 
-    function post_to_url(params) {
+    
+    function post_to_url(params, action) {
         var form = document.createElement("form");
         form.setAttribute("method", "post");
-        form.setAttribute("action", "/cancelresv");
+        form.setAttribute("action", action);
         for(var key in params) {
             var data = document.createElement("input");
             data.setAttribute("type", "hidden");
@@ -146,8 +206,23 @@
         document.body.appendChild(form);
         form.submit();
     }
-    function checkin(){ }
-    function checkout() { }
+
+    function checkin(el){ 
+        var ResvID = el.parentNode.parentNode.cells[0].textContent;
+        console.log(ResvID);
+        var iscancel = confirm("Checkin this reservation?");
+        if (iscancel == true){
+                post_to_url({'ResvID': ResvID}, '/checkin');
+        }
+    }
+    function checkout(el) { 
+            var ResvID = el.parentNode.parentNode.cells[0].textContent;
+            console.log(ResvID);
+            var iscancel = confirm("Checkout this reservation?");
+            if (iscancel == true){
+                    post_to_url({'ResvID': ResvID}, '/cancelresv');
+            } 
+    }
     </script>
 </body>
 </html>

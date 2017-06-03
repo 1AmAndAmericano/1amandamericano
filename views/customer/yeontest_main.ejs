@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>customer</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Bungee' rel='stylesheet'>
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+        <style>
+            div.nav-wrapper {
+                font-family: 'Bungee';
+                font-size: 48px;
+                text-align: center;
+                padding-left: 20px;
+            }
+            a.logo{
+                color: #ec407a;
+            }
+            body {
+                background-color: #ffebee;
+                font-family: 'Bungee';
+            }
+            a.tab {
+                font-family: 'Bungee';
+                font-size: 25px;
+                color: #40c4ff;
+                text-align: center;
+            }
+            #tab {
+                padding-top: 8px;
+                
+            }
+            #select{
+                margin-top: 20px;
+                top: -200px;
+                height: 150px;
+                background-color: #f48fb1;
+                position: relative;
+                opacity: 0.8;
+                padding : 10px;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+            div.tab {
+                font-size: 20px;
+                color: #000000;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <nav class="top-nav" style="background-color:#ffffff">
+                <div class="row">
+                        <div class="col s4"> 
+                            <div class="nav-wrapper"><a class="logo">1AM AMERICANO</a></div>
+                        </div>
+                        <div class="col s8" id="tab">
+                            <ul class="tabs">
+                                <li class="tab col s3"><a class="tab">Rooms List</a></li>
+                                <li class="tab col s3"><a class="tab">Reseravation</a></li>
+                                <li class="tab col s3"><a class="tab active" style="padding-left:80px; font-size:20px;">Login</a></li>
+                            </ul>
+                      </div>
+                </div>
+            </nav>
+           
+            <div  style="position: absolute ; z-index:100"> 
+                <img class="responsive-img" src="index2.jpeg">
+                <div class="container" id="select" style="color: #ec407a; font-size: 48px;">
+                    CHECK AVAILABILITY 
+                    <div class="row">
+                    <div class="col s3 tab">
+                        <select class="browser-default">
+                            <option>Check In </option>
+                        </select>
+                    </div>
+                    <div class="col s3 tab" >
+                        <select class="browser-default">
+                            <option>Check Out</option>
+                        </select>
+                    </div>
+                    <div class="col s3 tab">
+                        <select class="browser-default">
+                            <option>Guests</option>
+                        </select>
+                    </div>
+                    <div class="col s2 tab">
+                        <button class="btn" style="margin-top:5px; background-color:#ec407a">Search</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="container" style="position: relative; top: 70%;">
+            <div class="row">
+                <div class="col s12 m4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="index2.jpeg">
+                            <span class="card-title" style="color:#ec407a">Standard</span>
+                        </div>
+                        <div class="card-content">
+                        <p>I am a very simple card. I am good at containing small bits of information.
+              I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                        <select class="browser-default">
+                            <option>select # of room </option>
+                        </select>
+                        
+                    </div>
+                </div>
+                <div class="col s12 m4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="index2.jpeg">
+                            <span class="card-title" style="color:#ec407a">Premium</span>
+                        </div>
+                        <div class="card-content">
+                        <p>I am a very simple card. I am good at containing small bits of information.
+              I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                        <select class="browser-default">
+                            <option>select # of room</option>
+                        </select>
+                        
+                    </div>
+                </div>
+                <div class="col s12 m4">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="index2.jpeg">
+                            <span class="card-title" style="color:#ec407a">Sweet</span>
+                        </div>
+                        <div class="card-content">
+                        <p>I am a very simple card. I am good at containing small bits of information.
+              I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                        <select class="browser-default">
+                            <option>select # of roomn </option>
+                        </select>
+                        
+                    </div>
+                </div>
+            </div>
+            <a class="waves-effect waves-light btn" style="float: right; margin-bottom:20px; background-color:ec407a">Reservation</a>
+        </div>
+    </body>
+</html>

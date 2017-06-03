@@ -1,6 +1,6 @@
 exports.main = function(req, res){
     if (req.session.userid != undefined){
-	    res.render('Mana_resv', { title: 'Make Resv',name:'1am Americano', data:'', filter:''});
+	    res.render('Mana_resv', { title: 'Make a Reservation', userid: req.session.userid, name:'1am Americano', data:'', filter:''});
 
     }
     else {
@@ -26,7 +26,7 @@ exports.make_resv = function(req, res) {
     var query = make_query(from, to, room_type);
     console.log(query);
     db.all(query, function(err, row){
-        res.render('Mana_resv', {title: 'Make Resv',name:'1am Americano', data : JSON.stringify(row) , filter : filter});
+        res.render('Mana_resv', {title: 'Make a Reservation', userid:req.session.userid, name:'1am Americano', data : JSON.stringify(row) , filter : filter});
     });
     db.close();
     //res.render('Mana_resv', {title : 'Make Reservatioin'});
@@ -49,6 +49,7 @@ exports.insertdb = function(req, res){
     var email = other_data[0];
     var bank = other_data[1];
     var account = other_data[2];
+    var depositor = other_data[3];
     var j = data_parse(data);
     var checkin = j[0];
     var checkout = j[1];
@@ -61,7 +62,7 @@ exports.insertdb = function(req, res){
     }
 
     function retval(ret){
-        var query = "INSERT INTO reservations ('ResvID', 'Email', 'RoomNumber','CheckinDate', 'CheckoutDate', 'Is_Customer', 'ResvState', 'Price', 'Bank', 'Account') VALUES (";
+        var query = "INSERT INTO reservations ('ResvID', 'Email', 'RoomNumber','CheckinDate', 'CheckoutDate', 'Is_Customer', 'ResvState', 'Price', 'Bank', 'Account', 'Depositor') VALUES (";
         query+= String(Number(ret['max(resvid)'])+1)+", ";
         query+= '"'+email+'", ';
         query+= roomnumber+", ";
@@ -71,7 +72,10 @@ exports.insertdb = function(req, res){
         query+= 0+", ";
         query+= String(roomprice*(str2Date(checkout)-str2Date(checkin))/86400000)+", ";
         query+= '"'+bank+'", ';
-        query+= account+")";
+        
+        query+= account+',';
+        query+= '"'+depositor+'")';
+        
         console.log(query);
         db.run(query, function(err){
             console.log("db success");
