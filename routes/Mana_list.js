@@ -37,7 +37,7 @@ exports.cancelresv = function(req, res){
     db.run('DELETE FROM reservations where ResvID="'+resvid+'"', function (err, row) {
         console.error(err);
     });
-    res.redirect('/list');
+    res.redirect('/list_show');
 }
 var make_query = function(email,from, to, room_type, occupied){
     var str='select * from Reservations left join rooms on Reservations.RoomNumber=Rooms.RoomNumber ';

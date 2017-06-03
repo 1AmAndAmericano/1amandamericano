@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>sign up page</title>
+</head>
+<body>
+<h2> Sign up form</h2>
+<form action="/check_email" method="post">
+Enter email : <input type="email" id="user_email" name="userid" value='<%=name%>'/><br>
+<input type="submit" value="check account"/>
+</form>
+
+<form action="/make_account" method="post">
+Enter name : <input type="text"  name="username"/><br>
+Enter password : <input type="password" name="password"/><br>
+<input type="hidden" name="useremail" value='<%=name%>'/>
+<input type="submit" value="make account"/>
+</form>
+
+<a href="/">Home</a>
+<script>
+var id = '<%=name%>'
+var tryid = '<%=tryid%>'
+if(id=="" && tryid=='true'){
+    alert("Already the same email exists");
+}
+if(id!="" && tryid=='true'){
+    alert("You can use the id");
+}
+</script>
+
+</body>
+</html>
+

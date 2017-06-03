@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <style scoped>
+      h2 { color:gray;}
+      h4 { color:ivory;}
+      h5 { color:gray;}
+    </style>
+  </head>
+
+  <body style="background-color: ivory">
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <!-- 브라우저가 좁아졋을때 나오는 버튼(클릭시 메뉴출력) -->
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><%= title %></a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout" id=logout hidden><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+          </ul>
+        </div>
+
+        <br><br><br>
+        <p><h4>Your reservation list below, <%= name %> </h4></p>
+        <br>
+
+    <table id="rev_list" class="table table-striped">
+        <tr>
+            <th>ResvID</th>
+            <th>Email</th>
+            <th>RoomNumber</th>
+            <th>CheckinDate</th>
+            <th>CheckoutDate</th>
+            <th>Is_Customer</th>
+            <th>ResvState</th>
+            <th>Price</th>
+            <th>Bank</th>
+            <th>Account</th>
+            <th>RoomPrice</th>
+            <th>RoomType</th>
+        </tr>
+    </table>
+  </div>
+</div>
+
+
+    <script>
+        var table = document.getElementById("rev_list");
+        var data = <%- data %>;
+
+        var row;
+        var cell0, cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8, cell9, cell10, cell11;
+        var d;
+        for(var i=0; i<data.length; i++){
+            d = data[i];
+            console.log(data[i]);
+            row = table.insertRow(-1);
+            cell0 = row.insertCell(0);
+            cell1 = row.insertCell(1);
+            cell2 = row.insertCell(2);
+            cell3 = row.insertCell(3);
+            cell4 = row.insertCell(4);
+            cell5 = row.insertCell(5);
+            cell6= row.insertCell(6);
+            cell7 = row.insertCell(7);
+            cell8 = row.insertCell(8);
+            cell9 = row.insertCell(9);
+            cell10 = row.insertCell(10);
+            cell11 = row.insertCell(11);
+            cell0.innerHTML = d.ResvID;
+            cell1.innerHTML = d.Email;
+            cell2.innerHTML = d.RoomNumber;
+            cell3.innerHTML = d.CheckinDate;
+            cell4.innerHTML = d.CheckoutDate;
+            cell7.innerHTML = d.Price;
+            cell11.innerHTML = d.RoomType;
+        }
+    </script>
+</body>
+</html>

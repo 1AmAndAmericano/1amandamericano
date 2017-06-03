@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <title><%= title %></title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- Latest compiled and minified CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+      <!-- Optional theme -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+
+      <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+      <style scoped>
+        h2 { color:gray;}
+        h4 { color:ivory;}
+        h5 { color:ivory;}
+      </style>
+  </head>
+
+  <body style="background-color: gray">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <!-- 브라우저가 좁아졋을때 나오는 버튼(클릭시 메뉴출력) -->
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/"><%= title %></a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/resv_list">Reservation List</a></li>
+            <li><a href="/resv_history_list">Reservation History</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout" id=logout hidden><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+          </ul>
+        </div>
+
+    <br><br><br>
+    <p><h4>Here is your reservation list, <%= name %> </h4></p>
+    <br>
+
+
+  <!--<body>
+    <h1><%= title %></h1>
+    <p>Welcome to Customer reservation! <%= name %></p>
+    <a href="/">Home</a>
+    <a href="/resv_list">Reservations List</a>
+    <a href="/resv_history_list">Reservations History</a>
+    <a href="/logout">logout</a><br>
+        <br>
+        <br> -->
+        <table id="rev_list" class="table table-hover">
+            <tr>
+                <th><h5>ResvID </h5></th>
+                <th><h5>Email </h5></th>
+                <th><h5>RoomNumber </h5></th>
+                <th><h5>Checkin </h5></th>
+                <th><h5>Checkout </h5></th>
+                <th><h5>Price </h5></th>
+                <th><h5>RoomType </h5></th>
+            </tr>
+        </table>
+    </div>
+  </div>
+
+       <script>
+       var table = document.getElementById("rev_list");
+       var data = '<%- data %>';
+       var is_history = '<%- is_history %>';
+       var row;
+       var cell0, cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8;
+       var d;
+       console.log("data lenth:"+data.length);
+       if(data != ''){
+               data = JSON.parse(data);
+               for(var i=0; i < data.length; i++){
+                       d = data[i];
+                       console.log(data[i]);
+                       row = table.insertRow(-1);
+                       cell0 = row.insertCell(0);
+                       cell1 = row.insertCell(1);
+                       cell2 = row.insertCell(2);
+                       cell3 = row.insertCell(3);
+                       cell4 = row.insertCell(4);
+                       cell5 = row.insertCell(5);
+                       cell6= row.insertCell(6);
+                       cell7 = row.insertCell(7);
+                       cell8 = row.insertCell(8);
+                       cell0.innerHTML = d.ResvID;
+                       cell0.style.color = "ivory";
+                       cell1.innerHTML = d.Email;
+                       cell1.style.color = "ivory";
+                       cell2.innerHTML = d.RoomNumber;
+                       cell2.style.color = "ivory";
+                       cell3.innerHTML = d.CheckinDate;
+                       cell3.style.color = "ivory";
+                       cell4.innerHTML = d.CheckoutDate;
+                       cell4.style.color = "ivory";
+                       cell5.innerHTML = d.Price;
+                       cell5.style.color = "ivory";
+                       cell6.innerHTML = d.RoomType;
+                       cell6.style.color = "ivory";
+                       if (is_history == 0) {
+                         cell7.innerHTML = '<button onclick="changeresv(this)" class="btn btn-primary">CHANGE</button>';
+                         cell8.innerHTML = '<button onclick="cancelresv(this)" class="btn btn-primary">CANCEL</button>';
+                      }
+
+                  }
+       }
+       function cancelresv(el){
+          var ResvID = el.parentNode.parentNode.cells[0].textContent;
+          console.log(ResvID);
+          var iscancel = confirm("Are you sure to cancel the reservation? A refund will be issued properly.");
+          if (iscancel == true){
+                  post_to_url({'ResvID': ResvID});
+          }
+      }
+
+      function post_to_url(params) {
+          var form = document.createElement("form");
+          form.setAttribute("method", "post");
+          form.setAttribute("action", "/cancelresv");
+          for(var key in params) {
+                  var data = document.createElement("input");
+                  data.setAttribute("type", "hidden");
+                  data.setAttribute("name", key);
+                  data.setAttribute("value", params[key]);
+                  form.appendChild(data);
+          }
+          document.body.appendChild(form);
+          form.submit();
+      }
+
+      </script>
+  </body>
+</html>
