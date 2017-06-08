@@ -2,72 +2,147 @@
 <html>
 <head>
 <title><%= title %></title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<style>
+.navbar {
+        border-color: brown;
+        background-color: ivory;
+        background-image: linear-gradient(to bottom,rgba(51, 32, 3, 0.98) 0,rgba(109, 48, 13, 0.78) 100%);
+        border-bottom-color: rgba(165, 42, 42, 0.04);
+}
+.navbar-brand {
+color:ivory;
+}
+.badge{
+color:#fcf8e3;
+      background-color:#a94442;
+}
+.ivory{
+color:ivory;
+}
+.back_image {
+height: 100%;
+        background-image: url(http://director.cl/wp-content/uploads/2015/09/hotel.jpg);
+        background-position: center bottom;
+        background-size: cover;
+}
+</style>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<style scoped>
+h3 { color:ivory;}
+h4 { color:ivory;}
+h5 { color:ivory;}
+</style>
 </head>
-<body>
-<h1><%= title %></h1>
-<p>Welcome to Customer reservation! <%= name %></p>
-<a href="/">Home</a>
-<a href="/resv_list">Reservations List</a>
-<a href="/resv_history_list">Reservations History</a>
-<a href="/logout">logout</a><br>
-    <br>
-    <br>
-    <table id="rev_list">
-        <tr>
-            <th>ResvID </th>
-            <th>Email </th>
-            <th>RoomNumber </th>
-            <th>CheckinDate </th>
-            <th>CheckoutDate </th>
-            <th>Price </th>
-            <th>RoomType </th>
-        </tr>
-    </table>
-     
-     <script>
-     var table = document.getElementById("rev_list");
-     var data = '<%- data %>';
-     var row;
-     var cell0, cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8;
-     var d;
-     console.log("data lenth:"+data.length);
-     if(data != ''){
-             data = JSON.parse(data);
-             for(var i=0; i < data.length; i++){
-                     d = data[i];
-                     console.log(data[i]);
-                     row = table.insertRow(-1);
-                     cell0 = row.insertCell(0);
-                     cell1 = row.insertCell(1);
-                     cell2 = row.insertCell(2);
-                     cell3 = row.insertCell(3);
-                     cell4 = row.insertCell(4);
-                     cell5 = row.insertCell(5);
-                     cell6= row.insertCell(6);
-                     cell7 = row.insertCell(7);
-                     cell8 = row.insertCell(8);
-                     cell0.innerHTML = d.ResvID;
-                     cell1.innerHTML = d.Email;
-                     cell2.innerHTML = d.RoomNumber;
-                     cell3.innerHTML = d.CheckinDate;
-                     cell4.innerHTML = d.CheckoutDate;
-                     cell5.innerHTML = d.Price;
-                     cell6.innerHTML = d.RoomType;
-                     cell7.innerHTML = '<button onclick="changeresv(this)">CHANGE</button>';
-                     cell8.innerHTML = '<button onclick="cancelresv(this)">CANCEL</button>';
-                
+
+<body style="background-color: rgba(247, 200, 134, 0.48);" class="back_image">
+
+<div class="navbar navbar-khaki navbar-fixed-top">
+<div class="container">
+<div class="navbar-header">
+
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="/"><%= title %></a>
+</div>
+<div class="collapse navbar-collapse">
+<ul class="nav navbar-nav">
+<li><a class="ivory" href="/rooms_list">rooms List</a></li>
+<li><a class="ivory" href="/resv_list">reservation</a></li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="/logout" id=logout hidden><span class="text-warning glyphicon glyphicon-log-in ivory">Logout</span></a></li>
+</div>
+<br/>
+<div class="collapse navbar-collapse">
+</ul>
+<ul class="nav navbar-nav">
+<li><a class="ivory" href="/resv_list">Reservation List</a></li>
+<li><a class="ivory" href="/resv_history_list">Reservation History</a></li>
+</ul>
+</div>
+
+<br><br><br>
+<p><h4>Here is your reservation <%= history %>list, <%= name %> </h4></p>
+<br>
+
+
+<table id="rev_list" class="table">
+<tr>
+<th><h5>ResvID </h5></th>
+<th><h5>Email </h5></th>
+<th><h5>RoomNumber </h5></th>
+<th><h5>Checkin </h5></th>
+<th><h5>Checkout </h5></th>
+<th><h5>Price </h5></th>
+<th><h5>RoomType </h5></th>
+</tr>
+</table>
+</div>
+</div>
+
+<script>
+var table = document.getElementById("rev_list");
+var data = '<%- data %>';
+var is_history = '<%- is_history %>';
+var row;
+var cell0, cell1, cell2, cell3, cell4, cell5, cell6, cell7, cell8;
+var d;
+console.log("data lenth:"+data.length);
+if(data != ''){
+        data = JSON.parse(data);
+        for(var i=0; i < data.length; i++){
+                d = data[i];
+                console.log(data[i]);
+                row = table.insertRow(-1);
+                cell0 = row.insertCell(0);
+                cell1 = row.insertCell(1);
+                cell2 = row.insertCell(2);
+                cell3 = row.insertCell(3);
+                cell4 = row.insertCell(4);
+                cell5 = row.insertCell(5);
+                cell6= row.insertCell(6);
+                cell7 = row.insertCell(7);
+                cell8 = row.insertCell(8);
+                cell0.innerHTML = d.ResvID;
+                cell0.style.color = "ivory";
+                cell1.innerHTML = d.Email;
+                cell1.style.color = "ivory";
+                cell2.innerHTML = d.RoomNumber;
+                cell2.style.color = "ivory";
+                cell3.innerHTML = d.CheckinDate;
+                cell3.style.color = "ivory";
+                cell4.innerHTML = d.CheckoutDate;
+                cell4.style.color = "ivory";
+                cell5.innerHTML = d.Price;
+                cell5.style.color = "ivory";
+                cell6.innerHTML = d.RoomType;
+                cell6.style.color = "ivory";
+                if (is_history == 0) {
+                        cell7.innerHTML = '<button onclick="changeresv(this)" class="btn btn-warning">CHANGE</button>';
+                        cell8.innerHTML = '<button onclick="cancelresv(this)" class="btn btn-danger">CANCEL</button>';
                 }
-     }
-     function cancelresv(el){
+
+        }
+}
+function cancelresv(el){
         var ResvID = el.parentNode.parentNode.cells[0].textContent;
         console.log(ResvID);
-        var iscancel = confirm("Really cancel the reservation? A refund will be issued properly.");
+        var iscancel = confirm("Are you sure to cancel the reservation? A refund will be issued properly.");
         if (iscancel == true){
                 post_to_url({'ResvID': ResvID});
         }
-    }
+}
 
-    function post_to_url(params) {
+function post_to_url(params) {
         var form = document.createElement("form");
         form.setAttribute("method", "post");
         form.setAttribute("action", "/cancelresv");
@@ -80,8 +155,9 @@
         }
         document.body.appendChild(form);
         form.submit();
-    }   
+}
 
-    </script>
+</script>
 </body>
 </html>
+

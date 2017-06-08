@@ -2,34 +2,119 @@
 <html>
 <head>
 <title><%= title %></title>
-    <style>
-        div{
-            width : 300px;
-            }
-        div img{
-            height: 100%;
-            width: 100%;
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<style>
+.navbar {
+        border-color: brown;
+        background-color: ivory;
+        background-image: linear-gradient(to bottom,rgba(51, 32, 3, 0.98) 0,rgba(109, 48, 13, 0.78) 100%);
+        border-bottom-color: rgba(165, 42, 42, 0.04);
+}
+.navbar-brand {
+color:ivory;
+}
+.badge{
+color:#fcf8e3;
+      background-color:#a94442;
+}
+.ivory{
+color:ivory;
+}
+.back_image {
+height: 100%;
+        background-image: url(http://director.cl/wp-content/uploads/2015/09/hotel.jpg);
+        background-position: center bottom;
+        background-size: cover;
+}
+</style>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<style scoped>
+h3 { color:ivory;}
+h4 { color:ivory;}
+h5 { color:ivory;}
+</style>
 </head>
-<body>
-<h1><%= title %></h1>
-<p>Welcome to Customer list <%= name %></p>
-<a href="/">Home</a>
-<a href="/logout">logout</a><br>
-    <div>
-    <img src="../image/room1.jpg" >
-    <p> Special Room, full-option, very nice
-    </div>
-    <div>
-    <img src="../image/room2.jpg" >
-    <p> Twin/Double Room. For two or three people, twin bed inside</p>
-    </div>
-    <div>
-    <img src="../image/room3.jpg" >
-    <p> Single Room, Quiet and TV inside</p>
-    </div>
-</body>
-</html>
 
+<body style="background-color: rgba(247, 200, 134, 0.48);" class="back_image">
+
+<div class="navbar navbar-khaki navbar-fixed-top">
+<div class="container">
+<div class="navbar-header">
+
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="/"><%= title %></a>
+</div>
+<div class="collapse navbar-collapse">
+<ul class="nav navbar-nav">
+<li><a class="ivory" href="/rooms_list">rooms list</a></li>
+<li><a class="ivory" href="/resv_list">reservation</a></li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li><a href="/login" id=login><span class="glyphicon glyphicon-user ivory">Login</span></a></li>
+<li><a href="/logout" id=logout hidden><span class="text-warning glyphicon glyphicon-log-in ivory">Logout</span></a></li>
+</ul>
+</div>
+<br>
+</div>
+
+<br><br><br>
+<p><h4> &nbsp;&nbsp;&nbsp;&nbsp; These are our Room Information, <%= name %> </h4></p>
+<br>
+</div>
+</div>
+    <br><br><br><br><br><br><br><br><br><br>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="thumbnail">
+        <a href="../image/room1.jpg">
+          <img src="../image/room1.jpg" alt="Lights" style="width:100%">
+          <div class="caption">
+            <p> Special Room, full-option, very nice </p>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="thumbnail">
+        <a href="../image/room2.jpg" >
+          <img src="../image/room2.jpg"  alt="Nature" style="width:100%">
+          <div class="caption">
+            <p>Twin/Double Room. For two or three people, twin bed inside</p>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="thumbnail">
+        <a href="../image/room3.jpg">
+          <img src="../image/room3.jpg" alt="Fjords" style="width:100%">
+          <div class="caption">
+            <p>Single Room, Quiet and TV inside.</p>
+          </div>
+          </a>
+        </div>
+    </div>
+  </div>
+
+</body>
+
+<script>
+    var name  = '<%- name %>';
+    if(name != ''){
+        document.getElementById("login").style.display = 'none';
+        document.getElementById("logout").style.display = 'block';
+    } else {
+        document.getElementById("login").style.display = 'block';
+        document.getElementById("logout").style.display = 'none';
+    }
+</script>
+  </html>

@@ -34,11 +34,15 @@ exports.confirm_resv = function(req, res){
 	var roomtype = req.body.roomtype;
 	var roomnumber = req.body.roomnumber;
 	var bank = req.body.bank;
-console.log("bank  "+ bank);
+    console.log("bank  "+ bank);
 	var account = req.body.account;
-    insert_resv(from, to, userid, roomtype, roomnumber, bank, account);
+    var depositor = req.body.depositor;
+    insert_resv(from, to, userid, roomtype, roomnumber, bank, account, depositor);
     res.render('dbsucess', {});
 }
+
+
+/**********************BELOW:_HELPER_FUNCTION***************************/
 
 
 function str2Date(hey){
@@ -53,54 +57,58 @@ function str2Date(hey){
 }
 
 
-/**********************BELOW:_HELPER_FUNCTION***************************/
 
-
-
-var insert_resv = function(from, to, userid, roomtype, roomnumber, bank, account){
+var insert_resv = function(from, to, userid, roomtype, roomnumber, bank, account, depositor){
 		var sqlite3 = require('sqlite3').verbose();
         var db = new sqlite3.Database('myDB.db');
- 		function getNum(callback){
+ 		console.log("insert resv from : " + from);
+ 		console.log("insert resv to : " + to);
+ 		console.log("insert resv userid : " + userid);
+ 		console.log("insert resv roomtype : " + roomtype);
+ 		console.log("insert resv roomnumber : " + roomnumber);
+ 		console.log("insert resv bank : " + bank);
+ 		console.log("insert resv account : " + account);
+ 		console.log("insert resv depositor : " + depositor);
+        function getNum(callback){
        	db.get('select max(resvid) from Reservations_History;', function (err, row) {
             console.log(row);
             callback(row);
         	});
     	}
-	function retval(ret){
-        var resv_q = "reservations ";
-        var resv_history_q = "reservations_history "
-        var query_head = "INSERT INTO "
-		var checkout = to;
-		var checkin = from;
-		console.log('checkin out '+ checkin + "  "+ checkout);
-		var roomprice = 10;
+	    function retval(ret){
+            var resv_q = "reservations ";
+            var resv_history_q = "reservations_history "
+            var query_head = "INSERT INTO "
+		    var roomprice = 10;
         
-        var query =  "('ResvID', 'Email', 'RoomNumber','CheckinDate', 'CheckoutDate', 'Is_Customer', 'ResvState', 'Price', 'Bank', 'Account')" + 
+            var query =  "('ResvID', 'Email', 'RoomNumber','CheckinDate', 'CheckoutDate', 'Is_Customer', 'ResvState', 'Price', 'Bank', 'Account', 'Depositor') " + 
                     "VALUES (";
-        query+= String(Number(ret['max(resvid)'])+1) + ", ";
-        query+= '"'+ userid +'", ';
-        query+= roomnumber +  ", ";
-        query+= '"'+ from +' 23:00:00", ';
-        query+= '"'+ to +' 10:00:00", ';
-        query+= 1 +", ";
-        query+= 0+", ";
-        query+= String(roomprice*(str2Date(checkout)-str2Date(checkin))/86400000)+", ";
-        query+= '"'+bank+'", ';
-        query+= account+")";
-        //console.log(query);
+            query+= String(Number(ret['max(resvid)'])+1) + ", ";
+            query+= '"'+ userid +'", ';
+            query+= roomnumber +  ", ";
+            query+= '"'+ from +' 23:00:00", ';
+            query+= '"'+ to +' 10:00:00", ';
+            query+= 1 +", ";
+            query+= 0+", ";
+            query+= String(roomprice*(str2Date(to)-str2Date(from))/86400000)+", ";
+            query+= '"'+bank+'", ';
+            query+= account+',';
+            query+= '"'+depositor+'")';
         
-        resv_q = query_head + resv_q + query;
-        resv_history_q = query_head + resv_history_q + query;
-		console.log(resv_q);
-		console.log(resv_history_q);
-        db.run(resv_q , function(){
-                        console.log("db update success reservations");
-                        });
-        db.run(resv_history_q , function(){
-                        console.log("db update success reservation history");
-                        });
+            resv_q = query_head + resv_q + query;
+            resv_history_q = query_head + resv_history_q + query;
+		    console.log("customer inesrt resv : " + resv_q);
+		    console.log(resv_history_q);
+            db.run(resv_q , function(){
+                console.log("db update success reservations");
+            });
+            
+            db.run(resv_history_q , function(){
+                console.log("db update success reservation history");
+            });
+            
 
-    }
-    getNum(retval);
-	db.close();
+        }   
+        getNum(retval);
+	    db.close();
 }

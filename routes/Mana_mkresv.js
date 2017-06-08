@@ -80,6 +80,31 @@ exports.insertdb = function(req, res){
         db.run(query, function(err){
             console.log("db success");
         });
+
+        query = "INSERT INTO reservations_history ('ResvID', 'Email', 'RoomNumber','CheckinDate', 'CheckoutDate', 'Is_Customer', 'ResvState', 'Price', 'Bank', 'Account', 'Depositor') VALUES (";
+        query+= String(Number(ret['max(resvid)'])+1)+", ";
+        query+= '"'+email+'", ';
+        query+= roomnumber+", ";
+        query+= '"'+checkin+' 23:00:00", ';
+        query+= '"'+checkout+' 10:00:00", ';
+        query+= 0+", ";
+        query+= 0+", ";
+        query+= String(roomprice*(str2Date(checkout)-str2Date(checkin))/86400000)+", ";
+        query+= '"'+bank+'", ';
+        
+        query+= account+',';
+        query+= '"'+depositor+'")';
+        
+        console.log(query);
+        db.run(query, function(err){
+            console.log("db success");
+        });
+
+
+
+
+
+
     }
     getNum(retval);
     res.redirect('/resv');

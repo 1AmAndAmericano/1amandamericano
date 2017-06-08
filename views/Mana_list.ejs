@@ -10,7 +10,15 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<style>
+    .back_image {
+    height: 100%;
+            background-image: url(http://director.cl/wp-content/uploads/2015/09/hotel.jpg);
+                    background-position: center bottom;
+                            background-size: cover;
+                            }
 
+</style>
 </head>
 <body style='background-color:pink'>
 
@@ -36,9 +44,9 @@
 <div class='col-md-2' style='background-color:lightpink'>
     <!--  <h1 style='text-align:center'><%=title %></h1> -->
     <ul class='nav nav-pills nav-stacked'>
-   <li style='text-align:left'><a href="/list">Reservation list</a></li>
-     <li style='text-align:left'><a href="/rooms">Check room status</a></li>
-    <li style='text-align:left'><a href="/resv">Make a Reservation</a></li>
+   <li style='text-align:left'><a class='navbar-link' href="/list">Reservation list</a></li>
+     <li style='text-align:left'><a class='navbar-link' href="/rooms">Check room status</a></li>
+    <li style='text-align:left'><a class='navbar-link' href="/resv">Make a Reservation</a></li>
     </ul>
 </div>
 
@@ -171,8 +179,8 @@
                     cell11.innerHTML = d.RoomPrice;
                     cell12.innerHTML = d.Is_Customer;
             }
-            cell13.innerHTML = "<button class='btn btn-default' onclick='changeresv(this)'>CHANGE</button>";
-            cell14.innerHTML = "<button class='btn btn-default' onclick='cancelresv(this)'>CANCEL</button>";
+            cell13.innerHTML = "<button class='btn btn-warning' onclick='changeresv(this)'>CHANGE</button>";
+            cell14.innerHTML = "<button class='btn btn-danger' onclick='cancelresv(this)'>CANCEL</button>";
             if(d.ResvState < 2){
                 cell15.innerHTML = "<button class='btn btn-default' onclick='checkin(this)'>CHECKIN</button>";
             } else{

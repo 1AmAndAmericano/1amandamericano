@@ -4,20 +4,20 @@ exports.main = function(req, res){
         var db = new sqlite3.Database('myDB.db');
         var email = req.session.userid;
         var filter = ' customer email: '+ email;
-        var query = 'select * ' + 
-                    'from Reservations ' + 
+        var query = 'select * ' +
+                    'from Reservations ' +
                     'left join Customers '+
                     'on Reservations.Email = Customers.Email '+
                     'where Customers.Email =\'' + email + '\'';
         console.log(query);
         db.all(query, function(err, row){
                         console.log(row);
-                        res.render('list', {title: 'List complete',name:'1am Americano', data : JSON.stringify(row)});
+                        res.render('list', {title: '1am Americano Hotel',name:'1am Americano', data : JSON.stringify(row)});
                         });
         db.close();
     }
     else {
-	    res.render('main', { title: 'Sign in'}); 
+	    res.render('main', { title: 'Sign in'});
     }
 }
 
@@ -25,4 +25,3 @@ exports.main = function(req, res){
 exports.make_resv = function(req, res) {
     res.render('resv', {title : 'Make Reservatioin'});
 }
-

@@ -45,7 +45,8 @@ exports.logout = function(req, res) {
     });
 }
 exports.signup = function(req, res){
-	res.render('signup', {name : "", tryid:false});
+	console.log("signup");
+    res.render('signup', {title : '1amAmericano Hotel', name : "", tryid:false});
 }
 exports.make_account = function (req, res){
     var email = req.body.useremail;
@@ -73,9 +74,9 @@ exports.check_email = function(req, res){
 	console.log(query);
 	db.get(query, function(err, row){
 		if (row['count(*)'] >0){
-			res.render('signup', {name: '', tryid:true});
+			res.render('signup', {title :'1amAmericano Hotel',name: '', tryid:true});
 		}else{
-			res.render('signup', {name : userid, tryid:true});
+			res.render('signup', {title :'1amAmericano Hotel', name : userid, tryid:true});
 		}
 	});
 	db.close();

@@ -18,12 +18,35 @@
              
 </head>
 
-<body>
+<body style="background-color:pink">
+<div class='col-md-1'></div>
+<div class='col-md-10'>
+<div class='container'>
     <h1><%= title %></h1>
-    <form action="/login" method="post">
+    <br>
+    <form class='form-horizontal' action="/login" method="post">
+        <div class='form-group'>
+            <label for='email'>User E-mail: </label>
+            <input class='form-control' type='email' name='userid'/>
+        </div>
+        <div class='form-group'>
+            <label for='password'>Password: </label>
+            <input class='form-control' type='password' name='pwd'/>
+        </div>
+        <div class='form-group'>
+            <label></label>
+            <button class='btn btn-default' type='submit'>Sign In</button>
+        </div>
+
+
+<!--
         User email : <input type="email" name="userid"><br>
         Password : <input type="password" name="pwd"><br>
         <input type="submit" value="Sign In">
+        -->
     </form>
+</div>
+</div>
+<div class='col-md-1'></div>
 </body>
 </html>

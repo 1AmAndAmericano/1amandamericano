@@ -10,7 +10,7 @@ exports.resv_list = function(req, res) {
     console.log("customer, resv_list query : " + query);
 	db.all(query, function(err, row){
                     console.log("customer, resv_list query row : " + row);
-                    res.render('resv', {title: 'List complete', name:email, data : JSON.stringify(row) });
+                    res.render('resv', {title: '1am Americano Hotel', history : '',name:email, is_history : 0, data : JSON.stringify(row) });
     });
     db.close();
 }
@@ -24,7 +24,7 @@ exports.resv_history_list = function(req, res) {
     console.log("customer, resv_list query : " + query);
 	db.all(query, function(err, row){
                     console.log("customer, resv_list query row : " + row);
-                    res.render('resv', {title: 'List complete', name:email, data : JSON.stringify(row) });
+                    res.render('resv', {title: '1am Americano Hotel', history : 'history ', name:email, is_history : 1, data : JSON.stringify(row) });
     });
     db.close();
 }
@@ -42,4 +42,3 @@ exports.cancelresv = function(req, res){
                         });
         res.redirect('/resv_list');
 }
-

@@ -54,6 +54,7 @@ exports.checkin = function(req, res){
                         console.error(err);
                         });
         res.redirect('/list_show');
+
 }
 
 

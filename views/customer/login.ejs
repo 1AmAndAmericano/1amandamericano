@@ -1,17 +1,78 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <form action='/login_try' method="post">
-      User email : <input type="email" name="userid"><br>
-      Password : <input type="password" name="pwd"><br>
-      <input type="submit" value="Sign In">
-    </form>
-    <a href="/">Home</a>
-    <a href="/signup">Sign Up</a>
-    <a href="/findpwd">Find password</a>
-  </body>
+<head>
+<title><%= title %></title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<style>
+.navbar {
+        border-color: brown;
+        background-color: ivory;
+        background-image: linear-gradient(to bottom,rgba(51, 32, 3, 0.98) 0,rgba(109, 48, 13, 0.78) 100%);
+        border-bottom-color: rgba(165, 42, 42, 0.04);
+}
+.navbar-brand {
+color:ivory;
+}
+.badge{
+color:#fcf8e3;
+      background-color:#a94442;
+}
+.ivory{
+color:ivory;
+}
+.brown{
+color:brown;
+}
+.back_image {
+height: 100%;
+        background-image: url(http://director.cl/wp-content/uploads/2015/09/hotel.jpg);
+        background-position: center bottom;
+        background-size: cover;
+}
+</style>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<style scoped>
+h3 { color:ivory;}
+h4 { color:ivory;}
+h5 { color:ivory;}
+</style>
+</head>
+
+<body style="background-color: rgba(247, 200, 134, 0.48);" class="back_image">
+
+<div class="navbar navbar-khaki navbar-fixed-top">
+<div class="container">
+<div class="navbar-header">
+
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="/"><%= title %></a>
+</div>
+<div class="collapse navbar-collapse">
+<form accept-charset="UTF-8" role="form" method="post" action='/login_try'>
+<legend><h4>Login</h4></legend>
+<div class="form-group">
+<label for="username-email"><h5>Email Address</h5></label>
+<input type="email" name="userid" placeholder="이메일을 입력하세요" class="form-control" />
+</div>
+<div class="form-group">
+<label for="password"><h5>Password</h5></label>
+<input type="password" name="pwd" placeholder="비밀번호를 입력하세요" class="form-control" />
+</div>
+<input class="btn btn-default btn-block" type="submit" value="Login">
+<button class="btn btn-default btn-block" class='text-right '><a class="brown" href="/signup">Sign up</a></button>
+</form>
+</div>
+</div>
+</div>
+</body>
 </html>
+

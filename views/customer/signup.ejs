@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html>
 <head>
 <title>sign up page</title>
@@ -8,9 +8,9 @@
 <form action="/check_email" method="post">
 Enter email : <input type="email" id="user_email" name="userid" value='<%=name%>'/><br>
 <input type="submit" value="check account"/>
-</form>
+</form>-->
 
-<form action="/make_account" method="post">
+<!--<form action="/make_account" method="post">
 Enter name : <input type="text"  name="username"/><br>
 Enter password : <input type="password" name="password"/><br>
 <input type="hidden" name="useremail" value='<%=name%>'/>
@@ -26,6 +26,109 @@ if(id=="" && tryid=='true'){
 }
 if(id!="" && tryid=='true'){
     alert("You can use the id");
+}
+</script>
+
+</body>
+</html>-->
+
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<style>
+.navbar {
+        border-color: brown;
+        background-color: ivory;
+        background-image: linear-gradient(to bottom,rgba(51, 32, 3, 0.98) 0,rgba(109, 48, 13, 0.78) 100%);
+        border-bottom-color: rgba(165, 42, 42, 0.04);
+}
+.navbar-brand {
+color:ivory;
+}
+.badge{
+color:#fcf8e3;
+      background-color:#a94442;
+}
+.ivory{
+color:ivory;
+}
+.back_image {
+height: 100%;
+        background-image: url(http://director.cl/wp-content/uploads/2015/09/hotel.jpg);
+        background-position: center bottom;
+        background-size: cover;
+}
+</style>
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<style scoped>
+h3 { color:ivory;}
+h4 { color:ivory;}
+h5 { color:ivory;}
+</style>
+</head>
+
+<body style="background-color: rgba(247, 200, 134, 0.48);" class="back_image">
+
+<div class="navbar navbar-fixed-top">
+<div class="container-fluid">
+<div class="navbar-header">
+
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="/"><%= title %></a>
+</div>
+<div class="collapse navbar-collapse">
+<ul class="nav navbar-nav">
+<li><a class="ivory" href="/rooms_list">rooms list</a></li>
+<li><a class="ivory" href="/resv_list">reservation</a></li>
+</ul>
+
+</div>
+<br>
+<form action="/check_email" method="post" class="form-inline">
+<div class="form-group">
+<label for="user_email" class="ivory">Enter email: </label>
+<input placeholder="이메일을 입력하세요" type="email" class="form-control" id="user_email" name="userid" value='<%=name%>'/>
+<input type="submit" value="check email"/>
+</div>
+</form>
+
+<br>
+
+<form action="/make_account" method="post" class="form-inline">
+<div class="form-group">
+<label class="ivory" for="user_name">Enter name: </label>
+<input placeholder ="이름을 입력하세요" type="text" class="form-control" id="user_name" name="username" />
+</div>
+<div class="form-group">
+<label class="ivory" for="password">Enter password: </label>
+<input placeholder ="비밀번호를입력하세요" type="text" class="form-control" id="password" name="password" />
+</div>
+<input type="hidden" name="useremail" value='<%=name%>'/>
+<input type="submit" value="make account"/>
+</form>
+</div>
+</div>
+
+
+<script>
+var id = '<%=name%>'
+var tryid = '<%=tryid%>'
+if(id=="" && tryid=='true'){
+        alert("Already the same email exists");
+}
+if(id!="" && tryid=='true'){
+        alert("You can use the id");
 }
 </script>
 
